@@ -1,0 +1,84 @@
+*,
+:before,
+:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #1d1d1d;
+}
+
+button {
+    background-color: transparent;
+    display: block;
+    border: none;
+    font: inherit;
+}
+
+input {
+    border: none;
+    display: block;
+    font-family: sans-serif;
+
+    &:focus {
+        outline: none;
+        background-color: transparent;
+    }
+}
+
+label {
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    font: inherit;
+    display: inline-block;
+    color: inherit;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+img {
+    display: block;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #c7c7c7;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #a4a4a4;
+}

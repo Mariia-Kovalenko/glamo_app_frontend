@@ -1,0 +1,18 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.avatar {
+    @include mixins.size(50px, 50px);
+    border-radius: 50%;
+
+    & img {
+        @include mixins.image;
+        border-radius: 50%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .avatar {
+        @include mixins.size(100px, 100px);
+    }
+}

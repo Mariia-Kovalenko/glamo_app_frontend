@@ -1,0 +1,51 @@
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin align-center {
+    display: flex;
+    align-items: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-item($direction: row, $jc: start, $ai: start, $gap: 0) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: $ai;
+    justify-content: $jc;
+    gap: $gap;
+}
+
+@mixin image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@mixin push--auto {
+    margin: { 
+        left: auto;
+        right: auto;
+    }
+}
+
+@mixin size($w, $h) {
+    width: $w;
+    height: $h;
+}
+
+@mixin burger {
+    display: block;
+    content: "";
+    width: 28px;
+    height: 2px;
+    position: absolute;
+    transition: 0.3s;
+    border-radius: 3px;
+}
