@@ -59,7 +59,7 @@ img {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     padding: 0 15px;
 }
@@ -81,4 +81,10 @@ img {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #a4a4a4;
+}
+
+@media screen and (max-width: 425px){
+    .container {
+        padding: 0 10px;
+    }
 }

@@ -2,13 +2,23 @@
 @use '../../styles/variables';
 
 .map {
-    @include mixins.flex-item($gap: 30px, $jc: space-between);
+    @include mixins.flex-item($gap: 20px, $jc: space-between);
+    padding: 30px 0;
+    flex-wrap: wrap;
 
-    padding-top: 40px;
+    &__google-map {
+        flex-grow: 1;
+        align-self: stretch;
+    }
+
+    &__filters {
+        flex-shrink: 1;
+    }
 }
 
 @media screen and (max-width: 768px) {
     .map {
         flex-direction: column;
+        padding-top: 20px;
     }
 }
