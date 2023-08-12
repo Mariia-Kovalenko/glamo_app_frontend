@@ -17,10 +17,10 @@ type DirectionsResult = google.maps.DirectionsResult;
 
 interface IMapGoogleProps {
     isCheckboxChecked: boolean;
-    center: { lat: number; lng: number };
-    userLocation: { lat: number; lng: number };
-    setCenter: ({ lat, lng }: { lat: number; lng: number }) => void;
-    setUserLocation: ({ lat, lng }: { lat: number; lng: number }) => void;
+    center: Location;
+    userLocation: Location;
+    setCenter: ({ lat, lng }: Location) => void;
+    setUserLocation: ({ lat, lng }: Location) => void;
 }
 
 export default function MapGoogle({
@@ -117,8 +117,6 @@ export default function MapGoogle({
                             position={house}
                             onClick={() => {
                                 console.log(house);
-                                console.log();
-
                                 fetchDirections(house);
                             }}
                             icon="/location.svg"

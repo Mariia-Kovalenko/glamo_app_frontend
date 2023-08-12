@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Checkbox from "../../../common/Checkbox/Checkbox";
 import Places from "./Places/Places";
 import "./MapFilters.scss";
@@ -7,26 +6,34 @@ import Category from "./Category/Category";
 import RangeSlider from "../../../common/RangeSlider/RangeSlider";
 import Button from "../../../common/Button/Button";
 
+interface IMapFilterProps {
+    handleUserLocation: (position: any) => void;
+    isCheckboxChecked: boolean;
+    selectedCategory: string;
+    setSelectedCategory: (c: string) => void;
+    setSearchRadius: (r: number) => void;
+    setIsCheckboxChecked: (val: boolean) => void;
+    handleCheckboxChange: () => void;
+    applyFilter: () => void;
+}
+
 export default function MapFilters({
     handleUserLocation,
     isCheckboxChecked,
+    selectedCategory,
+    setSelectedCategory,
+    setSearchRadius,
     setIsCheckboxChecked,
-    handleCheckboxChange
-}: {
-    handleUserLocation: (position: any) => void;
-    isCheckboxChecked: boolean;
-    setIsCheckboxChecked: (val: boolean) => void;
-    handleCheckboxChange: () => void;
-}) {
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [searchRadius, setSearchRadius] = useState(15);
-
+    handleCheckboxChange,
+    applyFilter
+}: IMapFilterProps) {
+    
     const handleSelectCategory = (id: string) => {
         setSelectedCategory(id);
     };
 
     const clearFilters = () => {
-        setSearchRadius(15);
+        setSearchRadius(5);
         setSelectedCategory('');
         setIsCheckboxChecked(true);
     }
@@ -80,7 +87,7 @@ export default function MapFilters({
                     onClick={clearFilters}
                     fullWidth={true}
                 />
-                <Button text={"search"} onClick={() => {}} fullWidth={true} />
+                <Button text={"search"} onClick={applyFilter} fullWidth={true} />
             </div>
         </div>
     );
