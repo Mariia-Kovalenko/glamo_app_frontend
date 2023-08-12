@@ -1,0 +1,25 @@
+@use '../../../../styles/mixins';
+@use '../../../../styles/variables';
+
+
+.category {
+    @include mixins.size(165px, 60px);
+    flex-grow: 1;
+
+    border-radius: 10px;
+    @include mixins.flex-item($ai: center, $gap: 6px);
+    padding: 0 10px;
+    color: variables.$black;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+
+    &__name {
+        font-size: 14px;
+    }
+
+    &.selected {
+        color: white;
+        background-color: variables.$black;
+    }
+}

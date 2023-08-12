@@ -1,0 +1,35 @@
+@use '../../../styles/mixins';
+@use '../../../styles/variables';
+
+
+.filters {
+    max-width: 350px;
+    // border: 1px solid black;
+    &__title {
+        font-weight: bold;
+        font-size: 20px;
+        margin: 10px 0;
+    }
+    &__section {
+        margin-bottom: 30px;
+    }
+
+    &__categories {
+        // display: grid;
+        // grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 768px){
+    .filters {
+        max-width: 100%;
+
+        // &__categories {
+        //     justify-content: start;
+        // }
+    }
+}
