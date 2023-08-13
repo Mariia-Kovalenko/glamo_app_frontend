@@ -1,6 +1,10 @@
 import Header from './Layout/Header/Header';
+import Login from './Pages/Login/Login';
 import Map from './Pages/Map/Map';
 import { useLoadScript } from '@react-google-maps/api';
+import Registration from './Pages/Registration/Registration';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Layout from './Layout/PageLayout/PageLayout';
 
 function App() {
   const { isLoaded } = useLoadScript({
@@ -9,10 +13,15 @@ function App() {
 	});
   return (
     <div className="App">
-      <Header/>
-      {
-        isLoaded ? <Map /> : null
-      }
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout/>}>
+            <Route path='/map' element={isLoaded ? <Map /> : null} />
+          </Route>
+          <Route path='/login' element={<Login/>} />
+          <Route path='/register' element={<Registration/>} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,0 +1,46 @@
+@use '../../styles/variables';
+@use '../../styles/mixins';
+
+.label {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.input {
+    @include mixins.button-styles-light($minWidth: 400px, $fz: 16px);
+    text-transform: initial;
+    border: 2px solid variables.$grey-border;
+    padding: 15px 18px;
+
+    &.error {
+        border: 2px solid variables.$red;
+    }
+
+    &__inner {
+        position: relative;
+        width: fit-content;
+    }
+
+}
+
+.toggle-show-password {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    cursor: pointer;
+}
+
+@media screen and (max-width: 540px){
+    .input {
+        min-width: 300px;
+        &-container {
+            width: 100%;
+        }
+    &, &__inner {
+        width: 100%;
+    }
+    }
+}

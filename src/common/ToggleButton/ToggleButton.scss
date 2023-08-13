@@ -1,0 +1,24 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.toggle {
+    @include mixins.button-styles-light();
+    width: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+    flex-grow: 1;
+
+    &.active {
+        background: variables.$light-grey;
+        border-color: variables.$black;
+    }
+
+    &.left {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    &.right {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}

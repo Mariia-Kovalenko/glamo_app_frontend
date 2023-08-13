@@ -49,3 +49,13 @@
     transition: 0.3s;
     border-radius: 3px;
 }
+
+@mixin button-styles-light($minWidth: 120px, $fz: 14px) {
+    border-radius: 10px;
+    min-width: $minWidth;
+    min-height: 54px;
+    text-transform: uppercase;
+    font-size: $fz;
+    font-weight: 500;
+    border: 2px solid #9B9797;
+}

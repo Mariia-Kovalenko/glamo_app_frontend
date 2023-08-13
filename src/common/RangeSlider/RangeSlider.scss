@@ -2,12 +2,14 @@
 @use "../../styles/mixins";
 
 .range-slider-wrapper {
-    width: 300px;
+    min-width: 300px;
+    width: 100%;
 }
 
 input[type="range"] {
     font-size: 20px;
-    width: 300px;
+    min-width: 300px;
+    width: 100%;
 
     color: variables.$black;
     --thumb-height: 1.125em;
