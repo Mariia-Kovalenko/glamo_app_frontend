@@ -8,6 +8,8 @@ import {
 import { MarkerF } from "@react-google-maps/api";
 import { useEffect, useMemo, useState } from "react";
 import { LatLng } from "use-places-autocomplete";
+import { masters } from "../../../mocks/mocks";
+import { MasterData } from "../Map";
 
 type Location = {
     lat: number;
@@ -21,6 +23,7 @@ interface IMapGoogleProps {
     userLocation: Location;
     setCenter: ({ lat, lng }: Location) => void;
     setUserLocation: ({ lat, lng }: Location) => void;
+    masters?: MasterData[] | null
 }
 
 export default function MapGoogle({
@@ -29,6 +32,7 @@ export default function MapGoogle({
     userLocation,
     setCenter,
     setUserLocation,
+    masters
 }: IMapGoogleProps) {
     const [directions, setDirections] = useState<DirectionsResult>();
     const options = useMemo(
@@ -36,10 +40,16 @@ export default function MapGoogle({
             mapId: "6d1d08f0d0fcf525",
             disableDefaultUI: true,
             clickableIcons: false,
+            fullscreenControl: true,
+            zoomControl: true
         }),
         []
     );
     const randomLocations = useMemo(() => generateHouses(center), [center]);
+
+    useEffect(() => {
+        setUserCurrentLocation();
+    }, []);
 
     useEffect(() => {
         if (isCheckboxChecked) {
@@ -94,23 +104,23 @@ export default function MapGoogle({
                     </>
                 )}
 
-                {/* {masters?.map((master) => {
-						return (
-							<MarkerF
-								key={master.id}
-								position={master.location}
-								onClick={() => {
-									fetchDirections(master.location);
-									// show master info in popup
-									getMasterById(master.id);
-									setShowPopup(true);
-								}}
-								icon={`/service-icon-type-${serviceType}.svg`}
-							/>
-						);
-					})} */}
+                {
+                    masters ? 
+                    (masters.map((master: any) => {
+                        return master ? (
+                            <MarkerF
+                                key={master.id}
+                                position={master.location}
+                                onClick={() => {
+                                    fetchDirections(master.location);
+                                }}
+                                icon="/location.svg"
+                            />
+                        ) : null;
+                    })) : null
+                }
 
-                {randomLocations.map((house) => {
+                {/* {randomLocations.map((house) => {
                     return (
                         <MarkerF
                             key={house.lat}
@@ -122,7 +132,7 @@ export default function MapGoogle({
                             icon="/location.svg"
                         />
                     );
-                })}
+                })} */}
 
                 <DirectionsRenderer
                     directions={directions}

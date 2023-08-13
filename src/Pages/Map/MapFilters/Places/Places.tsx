@@ -48,6 +48,7 @@ function Places({
 
 		const results = await getGeocode({ address: val });
 		const { lat, lng } = getLatLng(results[0]);
+		console.log(`${val} location is: ${lat}, ${lng}`);
 		setUserLocation({ lat, lng });
 	};
 

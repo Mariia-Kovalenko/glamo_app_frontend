@@ -6,7 +6,7 @@
     @include mixins.flex-item($ai: center, $jc: center);
     border-bottom: 1.3px solid variables.$light-grey;
     &__inner {
-        max-width: 1200px;
+        max-width: 1300px;
         padding: 0 15px;
         flex-grow: 1;
         @include mixins.flex-item($jc: space-between, $ai: center, $gap: 20px);

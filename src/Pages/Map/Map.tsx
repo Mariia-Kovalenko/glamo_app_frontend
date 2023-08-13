@@ -2,6 +2,22 @@ import { useState } from "react";
 import MapFilters from "./MapFilters/MapFilters";
 import "./Map.scss";
 import MapGoogle from "./MapGoogle/MapGoogle";
+import SearchResults from "./SearchResults/SearchResults";
+import { masters } from "../../mocks/mocks";
+
+export type MasterData = {
+    id: string;
+    location: Location;
+};
+
+export type MasterInfoType = {
+    id: string;
+    email: string;
+    username: string;
+    address: string;
+    role?: string;
+    profileImage?: string;
+};
 
 export default function Map() {
     const [center, setCenter] = useState({ lat: 38, lng: 43 });
@@ -12,6 +28,7 @@ export default function Map() {
     const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [searchRadius, setSearchRadius] = useState(5);
+    const [mastersList, setMastersList] = useState<any>(null);
 
     const handleUserLocation = (position: any) => {
         setUserLocation(position);
@@ -23,8 +40,24 @@ export default function Map() {
     };
 
     const applyFilter = () => {
-        console.log(`location: ${userLocation.lng}, category: ${selectedCategory}, radius: ${searchRadius}`)
-    }
+        console.log(
+            `location: ${userLocation.lng}, category: ${selectedCategory}, radius: ${searchRadius}`
+        );
+        const list = masters
+            .map((master: any) => {
+                if (master.location) {
+                    const coords = master.location.coordinates;
+                    return {
+                        id: master._id,
+                        location: { lat: coords[1], lng: coords[0] },
+                    };
+                }
+                return null;
+            })
+            .filter((el) => el);
+        console.log(list);
+        setMastersList(list);
+    };
 
     return (
         <div className="container">
@@ -47,16 +80,31 @@ export default function Map() {
                         userLocation={userLocation}
                         setCenter={setCenter}
                         setUserLocation={setUserLocation}
+                        masters={mastersList}
                     />
                 </div>
                 <div className="map__search-results">
-                    <div
-                        style={{
-                            width: "270px",
-                            height: "300px",
-                            background: "#f2f2f2",
-                        }}
-                    ></div>
+                    <SearchResults
+                        masters={masters.map(
+                            ({
+                                _id,
+                                email,
+                                username,
+                                address,
+                                role,
+                                services,
+                            }) => {
+                                return {
+                                    id: _id,
+                                    email,
+                                    username,
+                                    address,
+                                    role,
+                                    services,
+                                };
+                            }
+                        )}
+                    />
                 </div>
             </div>
         </div>

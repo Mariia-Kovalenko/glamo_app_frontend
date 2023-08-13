@@ -1,0 +1,104 @@
+@use "../../../styles/mixins";
+@use "../../../styles/variables";
+
+.results {
+    min-width: 300px;
+    &__title {
+        font-size: 18px;
+        font-weight: 500;
+        height: 30px;
+        background-color: white;
+        width: 100%;
+        & span {
+            font-weight: 700;
+        }
+    }
+
+    &__inner {
+        height: calc(100vh - 150px);
+        overflow-y: scroll;
+        padding: 10px 0;
+        @include mixins.flex-item($direction: column, $ai: center, $gap: 10px);
+    }
+}
+
+.card {
+    box-shadow: 0px 0px 8px 0px rgba(134, 134, 134, 0.25);
+    border-radius: 20px;
+    border: 1px solid #f2f2f2;
+    background: white;
+    min-height: 330px;
+    height: fit-content;
+    min-width: 280px;
+    @include mixins.flex-item($direction: column);
+
+    &__inner {
+        padding: 15px;
+        width: 100%;
+        @include mixins.flex-item($direction: column);
+        flex-grow: 1;
+    }
+
+    &__image {
+        height: 130px;
+        width: 100%;
+
+        & img {
+            border-radius: 20px 20px 0 0;
+            @include mixins.image;
+        }
+    }
+
+    &__username {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    &__services {
+        font-size: 16px;
+        color: variables.$dark-grey;
+        margin-bottom: 20px;
+    }
+}
+
+.details {
+    font-size: 16px;
+    color: variables.$dark-grey;
+    @include mixins.flex-item($direction: column, $gap: 6px);
+    margin-bottom: 10px;
+    flex-grow: 1;
+
+    &__item {
+        @include mixins.flex-item($ai: center, $gap: 8px);
+        & img {
+            height: 18px;
+            width: 18px;
+        }
+    }
+}
+
+.no-results {
+    min-height: 330px;
+    font-size: 16px;
+    color: variables.$dark-grey
+}
+
+@media screen and (max-width: 1200px){
+    .results {
+        max-width: calc(100vw - 20px);
+        overflow-x: auto;
+        &__inner {
+            flex-direction: row;
+            height: fit-content;
+            width: 100%;
+            overflow-x: auto;
+            gap: 25px;
+            align-items: stretch;
+        }
+    }
+
+    .card {
+        flex-grow: 0;
+    }
+}
