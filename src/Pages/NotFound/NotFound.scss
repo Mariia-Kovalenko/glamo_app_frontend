@@ -1,0 +1,23 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+
+.not-found {
+    height: 100vh;
+    @include mixins.flex-item($direction: column, $jc: center, $ai: center, $gap: 20px);
+
+    &__action {
+        width: 300px;
+    }
+
+    &__status {
+        font-size: 120px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    &__message {
+        font-size: 20px;
+        text-align: center;
+    }
+}
