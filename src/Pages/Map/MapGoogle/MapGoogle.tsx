@@ -23,6 +23,7 @@ interface IMapGoogleProps {
     userLocation: Location;
     setCenter: ({ lat, lng }: Location) => void;
     setUserLocation: ({ lat, lng }: Location) => void;
+    showOnMap: any;
     masters?: MasterData[] | null
 }
 
@@ -32,9 +33,11 @@ export default function MapGoogle({
     userLocation,
     setCenter,
     setUserLocation,
+    showOnMap,
     masters
 }: IMapGoogleProps) {
     const [directions, setDirections] = useState<DirectionsResult>();
+    const [zoom, setZoom] = useState(10);
     const options = useMemo(
         () => ({
             mapId: "6d1d08f0d0fcf525",
@@ -50,6 +53,13 @@ export default function MapGoogle({
     useEffect(() => {
         setUserCurrentLocation();
     }, []);
+
+    useEffect(() => {
+        if (showOnMap) {
+            setCenter(showOnMap.location);
+            setZoom(15);
+        }
+    }, [showOnMap])
 
     useEffect(() => {
         if (isCheckboxChecked) {
@@ -90,7 +100,7 @@ export default function MapGoogle({
     return (
         <div className="google-map">
             <GoogleMap
-                zoom={10}
+                zoom={zoom}
                 center={center}
                 mapContainerClassName="map-container"
                 options={options}
@@ -114,7 +124,8 @@ export default function MapGoogle({
                                 onClick={() => {
                                     fetchDirections(master.location);
                                 }}
-                                icon="/location.svg"
+                                label={{text: master.name, className: 'marker-label' }}
+                                icon={"/location.svg"}
                             />
                         ) : null;
                     })) : null

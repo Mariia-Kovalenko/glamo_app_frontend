@@ -1,3 +1,5 @@
+@use '../../../styles/variables';
+
 .map-container {
     min-width: 300px;
     min-height: 600px;
@@ -10,4 +12,17 @@
 
 .google-map {
     height: 100%;
+}
+
+.marker-label {
+    position: absolute;
+    top: -8%;
+    left: -20px;
+    font-weight: 500;
+
+    background-color: white;
+    border-radius: 10px;
+    padding: 8px;
+
+    box-shadow: variables.$shadow;
 }

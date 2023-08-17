@@ -5,7 +5,7 @@ import { MasterData } from "../Map";
 import "./SearchResults.scss";
 
 export type MasterInfoType = {
-    id: string;
+    _id: string;
     email: string;
     username: string;
     services: string[];
@@ -26,9 +26,11 @@ const servicesMap = new Map([
 export default function SearchResults({
     masters,
     isLoading,
+    handleFetchDirection,
 }: {
     masters: MasterInfoType[];
     isLoading: boolean;
+    handleFetchDirection: (id: string) => void;
 }) {
     function getServices(services: string[]) {
         return services
@@ -49,7 +51,7 @@ export default function SearchResults({
                 ) : masters ? (
                     masters.map((master) => {
                         return (
-                            <div key={master.id} className="card">
+                            <div key={master._id} className="card">
                                 <div className="card__image">
                                     <img
                                         src={
@@ -91,7 +93,9 @@ export default function SearchResults({
                                         text={"see on map"}
                                         fullWidth
                                         color="light"
-                                        onClick={() => {}}
+                                        onClick={() => {
+                                            handleFetchDirection(master._id);
+                                        }}
                                     />
                                 </div>
                             </div>

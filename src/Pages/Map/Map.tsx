@@ -12,6 +12,7 @@ import Loader from "../../common/Loader/Loader";
 export type MasterData = {
     id: string;
     location: Location;
+    name?: string;
 };
 
 export type MasterInfoType = {
@@ -35,6 +36,7 @@ export default function Map() {
     const [mastersList, setMastersList] = useState<any>(null);
     const [mastersLocations, setMastersLocations] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showOnMap, setShowOnMap] = useState(null);
 
     const user = useSelector((state: { user: IUserState }) => state.user);
 
@@ -47,6 +49,12 @@ export default function Map() {
         setIsCheckboxChecked((prev) => !prev);
     };
 
+    const handleFetchDirection = (id: string) => {
+        console.log('id:',id);
+        const masterToShow = mastersLocations.find((master: any) => master.id === id);
+        console.log(masterToShow);
+        setShowOnMap(masterToShow);
+    }
 
     function fetchMasters() {
         setIsLoading(true);
@@ -61,6 +69,7 @@ export default function Map() {
 						return {
 							id: master._id,
 							location: { lat: coords[1], lng: coords[0] },
+                            name: master.username
 						};
 					}
 				});
@@ -93,12 +102,14 @@ export default function Map() {
                         setCenter={setCenter}
                         setUserLocation={setUserLocation}
                         masters={mastersLocations}
+                        showOnMap={showOnMap}
                     />
                 </div>
                 <div className="map__search-results">
                     <SearchResults
                         isLoading={isLoading}
                         masters={mastersList}
+                        handleFetchDirection={handleFetchDirection}
                     />
                 </div>
             </div>
