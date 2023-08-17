@@ -1,19 +1,32 @@
-import './ToggleButton.scss';
+import { Role } from "../../services/apiService";
+import "./ToggleButton.scss";
 
 interface IToggleButtonProps {
     label: string;
     toggled: boolean;
-    setValue: (value: string) => void;
-    side?: 'left' | 'right';
+    setValue: (value: any) => void;
+    side?: "left" | "right";
 }
 
-export default function ToggleButton({label, toggled, setValue, side} : IToggleButtonProps) {
+export default function ToggleButton({
+    label,
+    toggled,
+    setValue,
+    side,
+}: IToggleButtonProps) {
     const handleToggled = () => {
+        console.log("click", label);
         setValue(label.toUpperCase());
-    }
+    };
     return (
-        <button className={`toggle ${side || ''} ${toggled ? 'active' : ''}`} onClick={handleToggled}>
+        <button
+            className={`toggle ${side || ""} ${toggled ? "active" : ""}`}
+            onClick={(event) => {
+                event.preventDefault();
+                handleToggled();
+            }}
+        >
             {label}
         </button>
-    )
+    );
 }

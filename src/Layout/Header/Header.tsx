@@ -1,14 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Avatar from "../../common/Avatar/Avatar";
 import Button from "../../common/Button/Button";
 import "./Header.scss";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { IUserState, logoutUser } from "../../store/user/userSlice";
+import { API_URL, USERS } from "../../constants";
+import { LocalStorageService } from "../../services/localStorageService";
 
 export default function Header() {
-    const isAuth = true;
     const [isMenuOpened, setIsMenuOpened] = useState(false);
     const [burgerClassName, setBurgerClassName] = useState("burger open");
     const [navClassName, setNavClassName] = useState("nav close");
+
+    const dispatch = useDispatch();
+    const user = useSelector((state: { user: IUserState }) => state.user);
 
     const toggleSideMenu = () => {
         setIsMenuOpened((prev) => !prev);
@@ -22,6 +28,12 @@ export default function Header() {
     };
 
     const navigate = useNavigate();
+
+    const logout = () => {
+        dispatch(logoutUser);
+        LocalStorageService.removeUserFromLocal();
+        navigate(0);
+    };
 
     return (
         <header className="header">
@@ -63,7 +75,7 @@ export default function Header() {
                                 Beauty masters
                             </NavLink>
                         </li>
-                        {!isAuth ? (
+                        {!user.isAuth ? (
                             <li className="nav__item">
                                 <Button
                                     text={"Sign In"}
@@ -74,9 +86,17 @@ export default function Header() {
                                 />
                             </li>
                         ) : (
-                            <Avatar src="./user.jpg" />
+                            <button onClick={() => navigate("/profile")}>
+                                <Avatar
+                                    src={
+                                        user.profileImage
+                                            ? `${API_URL}${USERS}profile-image/${user.profileImage}`
+                                            : "./Avatar-default.svg"
+                                    }
+                                />
+                            </button>
                         )}
-                        {!isAuth ? (
+                        {!user.isAuth ? (
                             <li className="nav__item">
                                 <Button
                                     text={"Register"}
@@ -90,9 +110,7 @@ export default function Header() {
                                 <Button
                                     text={"Log out"}
                                     color="light"
-                                    onClick={() => {
-                                        navigate("/login");
-                                    }}
+                                    onClick={logout}
                                 />
                             </li>
                         )}

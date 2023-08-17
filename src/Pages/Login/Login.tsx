@@ -2,6 +2,12 @@ import { useFormik } from "formik";
 import Input from "../../common/Input/Input";
 import { loginValidationSchema } from "../../schemas/validationSchema";
 import Button from "../../common/Button/Button";
+import { IUserState, authorizeUser } from "../../store/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthService, Role } from "../../services/apiService";
+import { useState } from "react";
+import { LocalStorageService } from "../../services/localStorageService";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const { values, errors, touched, handleChange, handleBlur } = useFormik({
@@ -12,14 +18,48 @@ export default function Login() {
         validationSchema: loginValidationSchema,
         onSubmit: login,
     });
+    const [requestError, setRequestError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("error");
+
+    const user = useSelector((state: { user: IUserState }) => state.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function login() {
-        console.log("login");
+        if (!values.email || !values.password) {
+            setRequestError(true);
+            setErrorMessage("Please fill the form");
+            return;
+        }
+        AuthService.login(values.email, values.password)
+            .then((res) => {
+                const { username, role, access_token, profileImage } = res.data;
+                console.log(profileImage);
+                dispatch(
+                    authorizeUser(
+                        true,
+                        username,
+                        role,
+                        access_token,
+                        profileImage
+                    )
+                );
+
+                // save token to localStorage
+                LocalStorageService.saveUserToLocal(access_token);
+
+                navigate("/map");
+            })
+            .catch((error) => {
+                console.log(error);
+                setRequestError(true);
+                setErrorMessage(error.response.data.message);
+            });
     }
 
     return (
         <div className="auth">
-            <div className="auth__inner">
+            <form className="auth__inner">
                 <div className="auth__title">Log In</div>
 
                 <Input
@@ -41,22 +81,30 @@ export default function Login() {
                     onBlur={handleBlur}
                 />
                 <div className="restore-pass">
-                    <button>Forgot password?</button>
+                    <button onClick={() => navigate('/reset_pass')}>Forgot password?</button>
                 </div>
 
-                <Button text="Log in" onClick={() => {}} fullWidth />
+                <Button text="Log in" onClick={login} fullWidth />
                 <Button
                     text="continue as guest"
                     color="light"
-                    onClick={() => {}}
+                    onClick={() => {
+                        navigate("/map");
+                    }}
                     fullWidth
+                    type='submit'
                 />
 
                 <div className="redirect">
                     <p className="redirect__text">Do not have an account?</p>
-                    <button className="redirect__btn">Sign Up</button>
+                    <button
+                        className="redirect__btn"
+                        onClick={() => navigate("/register")}
+                    >
+                        Sign Up
+                    </button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }

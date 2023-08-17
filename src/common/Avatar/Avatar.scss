@@ -4,6 +4,7 @@
 .avatar {
     @include mixins.size(50px, 50px);
     border-radius: 50%;
+    cursor: pointer;
 
     & img {
         @include mixins.image;

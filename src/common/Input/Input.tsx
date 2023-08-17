@@ -33,10 +33,10 @@ export default function Input({
 
     const toggleShowPassword = () => {
         setIsPasswordVisible((prev) => !prev);
-        if (inputType === 'password') {
-            setInputType('text');
+        if (inputType === "password") {
+            setInputType("text");
         } else {
-            setInputType('password');
+            setInputType("password");
         }
     };
     return (
@@ -57,7 +57,10 @@ export default function Input({
                 {type === "password" && (
                     <button
                         className="toggle-show-password"
-                        onClick={toggleShowPassword}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            toggleShowPassword();
+                        }}
                     >
                         {!isPasswordVisible ? (
                             <img src="./show-pass.svg" alt="show" />

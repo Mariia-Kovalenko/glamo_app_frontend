@@ -7,6 +7,8 @@ import {
 import Button from "../../common/Button/Button";
 import ToggleButton from "../../common/ToggleButton/ToggleButton";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthService, Role } from "../../services/apiService";
 
 export default function Registration() {
     const { values, errors, touched, handleChange, handleBlur } = useFormik({
@@ -18,28 +20,38 @@ export default function Registration() {
         validationSchema: registerValidationSchema,
         onSubmit: register,
     });
-    const [role, setRole] = useState("CUSTOMER");
+    const [role, setRole] = useState(Role.CUSTOMER);
+
+    const navigate = useNavigate();
 
     function register() {
-        console.log("register: ", role);
-    }
+		AuthService.register(values.username, values.email, values.password, role)
+			.then((res) => {
+				if (res.status === 201) {
+					navigate('/login');
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
     return (
         <div className="auth">
-            <div className="auth__inner">
+            <form className="auth__inner">
                 <div className="auth__title">Sign Up</div>
                 <div className="auth__role">
                     <ToggleButton
-                        toggled={role === "CUSTOMER"}
+                        toggled={role === Role.CUSTOMER}
                         setValue={setRole}
                         label={"customer"}
-                        side='left'
+                        side="left"
                     />
                     <ToggleButton
-                        toggled={role === "MASTER"}
+                        toggled={role === Role.MASTER}
                         setValue={setRole}
                         label={"master"}
-                        side='right'
+                        side="right"
                     />
                 </div>
 
@@ -71,13 +83,18 @@ export default function Registration() {
                     onBlur={handleBlur}
                 />
 
-                <Button text="Sign Up" onClick={register} fullWidth />
+                <Button text="Sign Up" onClick={register} fullWidth type='submit' />
 
                 <div className="redirect">
                     <p className="redirect__text">Already have an account?</p>
-                    <button className="redirect__btn">Log In</button>
+                    <button
+                        className="redirect__btn"
+                        onClick={() => navigate("/login")}
+                    >
+                        Log In
+                    </button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }

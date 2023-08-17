@@ -6,6 +6,7 @@ import Registration from "./Pages/Registration/Registration";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./Layout/PageLayout/PageLayout";
 import NotFound from "./Pages/NotFound/NotFound";
+import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 
 function App() {
     const { isLoaded } = useLoadScript({
@@ -25,6 +26,7 @@ function App() {
                     </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Registration />} />
+                    <Route path="/reset_pass" element={<ForgotPassword />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>

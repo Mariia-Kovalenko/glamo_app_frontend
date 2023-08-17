@@ -85,25 +85,27 @@ export default function Map() {
                 </div>
                 <div className="map__search-results">
                     <SearchResults
-                        masters={masters.map(
-                            ({
-                                _id,
-                                email,
-                                username,
-                                address,
-                                role,
-                                services,
-                            }) => {
-                                return {
-                                    id: _id,
-                                    email,
-                                    username,
-                                    address,
-                                    role,
-                                    services,
-                                };
-                            }
-                        )}
+                        masters={mastersList
+                        //     .map(
+                        //     ({
+                        //         _id,
+                        //         email,
+                        //         username,
+                        //         address,
+                        //         role,
+                        //         services,
+                        //     }: any) => {
+                        //         return {
+                        //             id: _id,
+                        //             email,
+                        //             username,
+                        //             address,
+                        //             role,
+                        //             services,
+                        //         };
+                        //     }
+                        // )
+                    }
                     />
                 </div>
             </div>

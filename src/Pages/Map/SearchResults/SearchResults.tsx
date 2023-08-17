@@ -9,7 +9,7 @@ export type MasterInfoType = {
     services: string[];
     role: string;
     address?: string;
-    // profileImage?: string;
+    profileImage?: string;
 };
 
 export default function SearchResults({
@@ -20,11 +20,11 @@ export default function SearchResults({
     return (
         <div className="results">
             <h5 className="results__title">
-                <span>{masters.length}</span> Results
+                <span>{masters ? masters.length : 0}</span> Results
             </h5>
 
             <div className="results__inner">
-                {masters.length ? (
+                {masters ? (
                     masters.map((master) => {
                         return (
                             <div key={master.id} className="card">
@@ -69,7 +69,7 @@ export default function SearchResults({
                         );
                     })
                 ) : (
-                    <div className="no-results">No results yet</div>
+                    <div className="no-results">Start Searching for Beauty Masters!</div>
                 )}
             </div>
         </div>

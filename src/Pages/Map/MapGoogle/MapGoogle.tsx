@@ -59,7 +59,7 @@ export default function MapGoogle({
 
     function setUserCurrentLocation() {
         navigator.geolocation.getCurrentPosition((position) => {
-            console.log(position.coords);
+            // console.log(position.coords);
             setCenter({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude,

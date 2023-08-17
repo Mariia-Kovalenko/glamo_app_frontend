@@ -6,9 +6,10 @@ interface ButtonProps {
     size?: 'small' | 'large';
     color?: 'dark' | 'light';
 	fullWidth?: boolean;
+	type?: "button" | "submit" | "reset" | undefined
 }
 
-function Button({ text, onClick, size, color, fullWidth }: ButtonProps) {
+function Button({ text, onClick, size, color, fullWidth, type }: ButtonProps) {
 	let buttonClass = 'btn ';
 
     buttonClass += size || 'small ';
@@ -22,6 +23,7 @@ function Button({ text, onClick, size, color, fullWidth }: ButtonProps) {
 				event.preventDefault();
 				onClick();
 			}}
+			type={type}
 		>
 			{text}
 		</button>
