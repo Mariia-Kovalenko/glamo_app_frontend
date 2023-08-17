@@ -4,6 +4,10 @@ import "./Map.scss";
 import MapGoogle from "./MapGoogle/MapGoogle";
 import SearchResults from "./SearchResults/SearchResults";
 import { masters } from "../../mocks/mocks";
+import { useSelector } from "react-redux";
+import { IUserState } from "../../store/user/userSlice";
+import { UsersService } from "../../services/apiService";
+import Loader from "../../common/Loader/Loader";
 
 export type MasterData = {
     id: string;
@@ -29,6 +33,10 @@ export default function Map() {
     const [selectedCategory, setSelectedCategory] = useState("");
     const [searchRadius, setSearchRadius] = useState(5);
     const [mastersList, setMastersList] = useState<any>(null);
+    const [mastersLocations, setMastersLocations] = useState<any>(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const user = useSelector((state: { user: IUserState }) => state.user);
 
     const handleUserLocation = (position: any) => {
         setUserLocation(position);
@@ -39,25 +47,29 @@ export default function Map() {
         setIsCheckboxChecked((prev) => !prev);
     };
 
-    const applyFilter = () => {
-        console.log(
-            `location: ${userLocation.lng}, category: ${selectedCategory}, radius: ${searchRadius}`
-        );
-        const list = masters
-            .map((master: any) => {
-                if (master.location) {
-                    const coords = master.location.coordinates;
-                    return {
-                        id: master._id,
-                        location: { lat: coords[1], lng: coords[0] },
-                    };
-                }
-                return null;
-            })
-            .filter((el) => el);
-        console.log(list);
-        setMastersList(list);
-    };
+
+    function fetchMasters() {
+        setIsLoading(true);
+        UsersService.getMasters(user.token, userLocation, searchRadius, [selectedCategory])
+			.then((res) => {
+                setIsLoading(false);
+                setMastersList(res.data);
+
+				const locations = res.data.map((master: any) => {
+					if (master.location) {
+						const coords = master.location.coordinates;
+						return {
+							id: master._id,
+							location: { lat: coords[1], lng: coords[0] },
+						};
+					}
+				});
+				setMastersLocations(locations);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+    }
 
     return (
         <div className="container">
@@ -70,7 +82,7 @@ export default function Map() {
                     setSearchRadius={setSearchRadius}
                     setIsCheckboxChecked={setIsCheckboxChecked}
                     handleCheckboxChange={handleCheckboxChange}
-                    applyFilter={applyFilter}
+                    applyFilter={fetchMasters}
                 />
 
                 <div className="map__google-map">
@@ -80,32 +92,13 @@ export default function Map() {
                         userLocation={userLocation}
                         setCenter={setCenter}
                         setUserLocation={setUserLocation}
-                        masters={mastersList}
+                        masters={mastersLocations}
                     />
                 </div>
                 <div className="map__search-results">
                     <SearchResults
-                        masters={mastersList
-                        //     .map(
-                        //     ({
-                        //         _id,
-                        //         email,
-                        //         username,
-                        //         address,
-                        //         role,
-                        //         services,
-                        //     }: any) => {
-                        //         return {
-                        //             id: _id,
-                        //             email,
-                        //             username,
-                        //             address,
-                        //             role,
-                        //             services,
-                        //         };
-                        //     }
-                        // )
-                    }
+                        isLoading={isLoading}
+                        masters={mastersList}
                     />
                 </div>
             </div>

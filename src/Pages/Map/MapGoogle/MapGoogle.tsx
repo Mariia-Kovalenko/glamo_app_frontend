@@ -90,7 +90,7 @@ export default function MapGoogle({
     return (
         <div className="google-map">
             <GoogleMap
-                zoom={8}
+                zoom={10}
                 center={center}
                 mapContainerClassName="map-container"
                 options={options}
