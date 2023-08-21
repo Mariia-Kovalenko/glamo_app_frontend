@@ -7,7 +7,6 @@ import { masters } from "../../mocks/mocks";
 import { useSelector } from "react-redux";
 import { IUserState } from "../../store/user/userSlice";
 import { UsersService } from "../../services/apiService";
-import Loader from "../../common/Loader/Loader";
 
 export type MasterData = {
     id: string;
@@ -36,6 +35,10 @@ export default function Map() {
     const [mastersList, setMastersList] = useState<any>(null);
     const [mastersLocations, setMastersLocations] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [requestError, setRequestError] = useState({
+        error: false,
+        message: "Error",
+    });
     const [showOnMap, setShowOnMap] = useState(null);
 
     const user = useSelector((state: { user: IUserState }) => state.user);
@@ -50,14 +53,15 @@ export default function Map() {
     };
 
     const handleFetchDirection = (id: string) => {
-        console.log('id:',id);
         const masterToShow = mastersLocations.find((master: any) => master.id === id);
-        console.log(masterToShow);
         setShowOnMap(masterToShow);
     }
 
     function fetchMasters() {
         setIsLoading(true);
+        if (requestError.error) {
+            setRequestError({error: false, message: ''});
+        }
         UsersService.getMasters(user.token, userLocation, searchRadius, [selectedCategory])
 			.then((res) => {
                 setIsLoading(false);
@@ -76,7 +80,8 @@ export default function Map() {
 				setMastersLocations(locations);
 			})
 			.catch((error) => {
-				console.log(error);
+                setIsLoading(false);
+                setRequestError({error: true, message: error.message});
 			});
     }
 
@@ -109,6 +114,7 @@ export default function Map() {
                     <SearchResults
                         isLoading={isLoading}
                         masters={mastersList}
+                        requestError={requestError}
                         handleFetchDirection={handleFetchDirection}
                     />
                 </div>

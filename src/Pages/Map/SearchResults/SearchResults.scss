@@ -27,8 +27,7 @@
     border-radius: 20px;
     border: 1px solid #f2f2f2;
     background: white;
-    min-height: 340px;
-    height: fit-content;
+    min-height: 380px;
     min-width: 280px;
     @include mixins.flex-item($direction: column);
 
@@ -60,6 +59,14 @@
         color: variables.$dark-grey;
         margin-bottom: 20px;
     }
+
+    &__user-actions  {
+        width: 100%;
+        & > *:not(:last-child) {
+            margin-bottom: 10px;
+        }
+        
+    }
 }
 
 .details {
@@ -79,7 +86,8 @@
 }
 
 .no-results {
-    min-height: 330px;
+    min-height: 100px;
+    min-width: 300px;
     font-size: 16px;
     color: variables.$dark-grey
 }

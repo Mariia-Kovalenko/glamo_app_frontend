@@ -21,20 +21,43 @@ export default function Registration() {
         onSubmit: register,
     });
     const [role, setRole] = useState(Role.CUSTOMER);
+    const [requestError, setRequestError] = useState({
+        error: false,
+        message: "Error",
+    });
 
     const navigate = useNavigate();
 
     function register() {
-		AuthService.register(values.username, values.email, values.password, role)
-			.then((res) => {
-				if (res.status === 201) {
-					navigate('/login');
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
+        if (!values.email || !values.password || !values.username) {
+            setRequestError({ error: true, message: "Please fill the form" });
+            return;
+        }
+        AuthService.register(
+            values.username,
+            values.email,
+            values.password,
+            role
+        )
+            .then((res) => {
+                if (res.status === 201) {
+                    navigate("/login");
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setRequestError({
+                        error: true,
+                        message: error.response.data.message,
+                    });
+                } else {
+                    setRequestError({
+                        error: true,
+                        message: error.message,
+                    });
+                }
+            });
+    }
 
     return (
         <div className="auth">
@@ -83,7 +106,24 @@ export default function Registration() {
                     onBlur={handleBlur}
                 />
 
-                <Button text="Sign Up" onClick={register} fullWidth type='submit' />
+                {requestError.error && (
+                    <div className="error">{requestError.message}</div>
+                )}
+
+                <Button
+                    text="Sign Up"
+                    onClick={register}
+                    fullWidth
+                    type="submit"
+                />
+                <Button
+                    text="continue as guest"
+                    color="light"
+                    onClick={() => {
+                        navigate("/map");
+                    }}
+                    fullWidth
+                />
 
                 <div className="redirect">
                     <p className="redirect__text">Already have an account?</p>

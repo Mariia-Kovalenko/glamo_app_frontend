@@ -4,7 +4,7 @@ interface ButtonProps {
 	text: string;
 	onClick: () => void;
     size?: 'small' | 'large';
-    color?: 'dark' | 'light';
+    color?: 'dark' | 'light' | 'grey';
 	fullWidth?: boolean;
 	type?: "button" | "submit" | "reset" | undefined
 }
@@ -12,7 +12,7 @@ interface ButtonProps {
 function Button({ text, onClick, size, color, fullWidth, type }: ButtonProps) {
 	let buttonClass = 'btn ';
 
-    buttonClass += size || 'small ';
+    buttonClass += size + ' ' || 'large ';
     buttonClass += color || 'dark ';
 	buttonClass += fullWidth ? ' fullWidth': '';
 

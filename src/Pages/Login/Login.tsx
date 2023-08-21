@@ -18,8 +18,10 @@ export default function Login() {
         validationSchema: loginValidationSchema,
         onSubmit: login,
     });
-    const [requestError, setRequestError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("error");
+    const [requestError, setRequestError] = useState({
+        error: false,
+        message: "Error",
+    });
 
     const user = useSelector((state: { user: IUserState }) => state.user);
     const dispatch = useDispatch();
@@ -27,8 +29,7 @@ export default function Login() {
 
     function login() {
         if (!values.email || !values.password) {
-            setRequestError(true);
-            setErrorMessage("Please fill the form");
+            setRequestError({ error: true, message: "Please fill the form" });
             return;
         }
         AuthService.login(values.email, values.password)
@@ -51,9 +52,17 @@ export default function Login() {
                 navigate("/map");
             })
             .catch((error) => {
-                console.log(error);
-                setRequestError(true);
-                setErrorMessage(error.response.data.message);
+                if (error.response) {
+                    setRequestError({
+                        error: true,
+                        message: error.response.data.message,
+                    });
+                } else {
+                    setRequestError({
+                        error: true,
+                        message: error.message,
+                    });
+                }
             });
     }
 
@@ -81,10 +90,16 @@ export default function Login() {
                     onBlur={handleBlur}
                 />
                 <div className="restore-pass">
-                    <button onClick={() => navigate('/reset_pass')}>Forgot password?</button>
+                    <button onClick={() => navigate("/reset_pass")}>
+                        Forgot password?
+                    </button>
                 </div>
 
-                <Button text="Log in" onClick={login} fullWidth />
+                {requestError.error && (
+                    <div className="error">{requestError.message}</div>
+                )}
+
+                <Button text="Log in" onClick={login} fullWidth type="submit" />
                 <Button
                     text="continue as guest"
                     color="light"
@@ -92,7 +107,6 @@ export default function Login() {
                         navigate("/map");
                     }}
                     fullWidth
-                    type='submit'
                 />
 
                 <div className="redirect">

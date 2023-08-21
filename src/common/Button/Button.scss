@@ -5,6 +5,14 @@
     @include mixins.button-styles-light;
     cursor: pointer;
     transition: 0.3s;
+
+    &.large {
+        min-width: 54px;
+    }
+
+    &.small {
+        min-height: 48px;
+    }
     
     &.dark {
         background-color: variables.$black;
@@ -23,6 +31,12 @@
         &:hover {
             background-color: #f2f2f2;
         }
+    }
+
+    &.grey {
+        color: variables.$black;
+        background-color: #C5C5C5;
+        border: 2px solid variables.$grey-border;
     }
 
     &.small {
