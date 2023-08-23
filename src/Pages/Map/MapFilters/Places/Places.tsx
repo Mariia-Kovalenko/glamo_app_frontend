@@ -18,12 +18,14 @@ type PlacesProps = {
 	isCheckboxChecked: boolean;
 	setIsCheckboxChecked: () => void;
 	setUserLocation: (position: { lat: number; lng: number }) => void;
+	inputStyle?: 'outlined' | 'filled'
 };
 
 function Places({
 	isCheckboxChecked,
 	setIsCheckboxChecked,
 	setUserLocation,
+	inputStyle
 }: PlacesProps) {
 	const {
 		ready,
@@ -38,6 +40,8 @@ function Places({
 			setValue('', false);
 		}
 	}, [isCheckboxChecked, setValue]);
+
+	const inputClass = inputStyle === 'outlined' ? 'combobox outlined' : 'combobox';
 
 	const handleSelect = async (val: string) => {
 		if (isCheckboxChecked) {
@@ -58,7 +62,7 @@ function Places({
 
 	return (
 		<Combobox onSelect={handleSelect}>
-			<div className='combobox'>
+			<div className={inputClass}>
 				<img src='/SearchOutlined.svg' alt='search' />
 				<ComboboxInput
 					value={value}

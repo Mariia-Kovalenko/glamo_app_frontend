@@ -1,9 +1,10 @@
 @use '../../../../styles/variables';
+@use '../../../../styles/mixins';
 
 .combobox {
     min-width: 320px;
     max-width: 100%;
-    background-color:#f4f4f4;
+    background-color: variables.$grey-search-bg;
     border-radius: 10px;
 
     display: flex;
@@ -23,12 +24,12 @@
         height: 60px;
         border-radius: 10px;
         padding: 0 20px 0 40px;
-        background-color: #f4f4f4;
         font-size: 16px;
+        background-color: inherit;
 
         &:focus {
             outline: none;
-            background-color: #f4f4f4;
+            background-color: variables.$grey-search-bg;
         }
     }
 
@@ -38,6 +39,11 @@
         border: none;
         z-index: 100;
         background-color: #faf9f9;
+    }
+
+    &.outlined {
+        border: 2px solid variables.$grey-border;
+        background-color: transparent;
     }
 }
 
