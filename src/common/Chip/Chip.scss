@@ -1,0 +1,26 @@
+@use '../../styles/mixins';
+@use '../../styles/variables';
+
+.chip {
+    background-color: variables.$light-grey;
+    border-radius: 100px;
+    padding: 0 8px;
+    height: 40px;
+    text-transform: capitalize;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    font-size: 15px;
+
+    &.dark {
+        background-color: variables.$black;
+        color: variables.$light-grey;
+    }
+
+    &__btn {
+        cursor: pointer;
+    }
+}

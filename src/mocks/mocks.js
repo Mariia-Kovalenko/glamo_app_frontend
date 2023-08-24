@@ -52,7 +52,8 @@ export const masters = [
 		  "1",
 		  "3",
 		  "4"
-		]
+		],
+		"phone": "+12345678"
 	  },
 	  {
 		"location": {

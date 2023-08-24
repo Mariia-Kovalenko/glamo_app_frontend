@@ -7,6 +7,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./Layout/PageLayout/PageLayout";
 import NotFound from "./Pages/NotFound/NotFound";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
+import Profile from "./Pages/Profile/Profile";
 
 function App() {
     const { isLoaded } = useLoadScript({
@@ -23,6 +24,7 @@ function App() {
                             path="/map"
                             element={isLoaded ? <Map /> : null}
                         />
+                        <Route path="/profile" element={<Profile />} />
                     </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Registration />} />
