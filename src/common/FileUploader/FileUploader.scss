@@ -1,0 +1,168 @@
+@use "../../styles/mixins";
+@use "../../styles/variables";
+
+.modal {
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.323);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    &__inner {
+        width: 500px;
+        min-height: 400px;
+        background-color: white;
+        border-radius: 20px;
+        padding: 20px;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        & > *:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+
+    &__title {
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+#form-file-upload {
+    height: 16rem;
+    max-width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+#input-file-upload {
+    display: none;
+}
+
+#label-file-upload {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed variables.$black;
+    border-radius: 1rem;
+    transition: 0.3s;
+
+    &.drag-active {
+        background-color: #f2f2f2;
+    }
+}
+
+.upload-button {
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 auto;
+    text-decoration: underline;
+
+    input {
+        display: none;
+    }
+}
+
+.upload-button:hover {
+    text-decoration-line: underline;
+}
+
+#drag-file-element {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.file-upload-area {
+    text-align: center;
+    font-size: 18px;
+    @include mixins.flex-item($direction: column, $gap: 10px, $ai: center);
+
+    &__action {
+        display: flex;
+        gap: 6px;
+    }
+
+    &__info {
+        color: variables.$dark-grey;
+        font-size: 14px;
+    }
+}
+
+.file {
+    @include mixins.flex-item($gap: 20px);
+    border: 2px solid variables.$grey-border;
+    border-radius: 10px;
+    padding: 10px;
+    position: relative;
+
+    &__icon {
+        border: 1.8px solid variables.$light-grey;
+        border-radius: 9px;
+        height: 40px;
+        width: 40px;
+        @include mixins.flex-item($ai: center, $jc: center);
+    }
+
+    &__name {
+        font-weight: 600;
+        margin-bottom: 3px;
+    }
+
+    &__size {
+        font-size: 14px;
+    }
+}
+
+.cross {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    @include mixins.flex-item($ai: center, $jc: center);
+
+    &.large {
+        height: 40px;
+        width: 40px;
+
+        & img {
+            height: 22px;
+            width: 22px;
+        }
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+
+    & button {
+        flex: 1 1 auto;
+    }
+}
+
+
+@media screen and (max-width: 540px){
+  .modal__inner {
+    width: 100%;
+  }
+
+  .modal__title {
+    font-size: 18px;
+  }
+  .actions {
+    flex-direction: column;
+}
+}

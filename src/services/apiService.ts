@@ -74,6 +74,16 @@ export class UsersService {
 			},
 		});
 	}
+
+	static uploadProfileImage(access_token: string, formData: any) {
+        // const options = { content: formData };
+        return axios.post(API_URL + USERS + "upload", formData, {
+            headers: {
+                authorization: `Bearer ${access_token}`,
+                "Content-Type": "multipart/form-data",
+            },
+        });
+    }
 }
 
 export class ServicesListService {

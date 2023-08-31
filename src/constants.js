@@ -9,3 +9,5 @@ export const REGISTER = 'register/';
 export const RESET_PASS = 'forgot_password/';
 
 export const USERS = 'users/';
+
+export const validMimeTypes = ["image/png", "image/jpg", "image/jpeg"];

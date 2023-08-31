@@ -34,10 +34,10 @@ export default function Login() {
         }
         AuthService.login(values.email, values.password)
             .then((res) => {
-                const { username, role, access_token, profileImage } = res.data;
-                console.log(profileImage);
+                const { id, username, role, access_token, profileImage } = res.data;
                 dispatch(
                     authorizeUser(
+                        id,
                         true,
                         username,
                         role,

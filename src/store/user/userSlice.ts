@@ -6,6 +6,7 @@ export enum Role {
 }
 
 export interface IUserState {
+	id: string;
 	isAuth: boolean;
 	username: string;
 	role: Role;
@@ -14,6 +15,7 @@ export interface IUserState {
 }
 
 const initialState: IUserState = {
+	id: '',
 	isAuth: false,
 	role: Role.UNSET,
 	username: '',
@@ -27,7 +29,8 @@ const userSlice = createSlice({
 	reducers: {
 		authorizeUser: {
 			reducer: (state, action: PayloadAction<IUserState>) => {
-				const { isAuth, username, role, token, profileImage } = action.payload;
+				const { id, isAuth, username, role, token, profileImage } = action.payload;
+				state.id = id;
 				state.isAuth = isAuth;
 				state.role = role;
 				state.username = username;
@@ -35,24 +38,35 @@ const userSlice = createSlice({
 				state.profileImage = profileImage;
 			},
 			prepare: (
+				id: string,
 				isAuth: boolean,
 				username: string,
 				role: Role,
 				token: string,
 				profileImage: string
 			) => {
-				return { payload: { isAuth, username, role, token, profileImage } };
+				return { payload: { id, isAuth, username, role, token, profileImage } };
 			},
 		},
 		logoutUser: (state) => {
 			state.isAuth = false;
 			state.token = '';
 			state.username = '';
+			state.id = '';
 		},
+		updateUserProfile: {
+			reducer: (state, action: PayloadAction<{ profileImage: string }>) => {
+				const { profileImage } = action.payload;
+				state.profileImage = profileImage;
+			}, 
+			prepare: (profileImage: string) => {
+				return { payload: { profileImage }}
+			}
+		}
 	},
 });
 
 const { actions, reducer } = userSlice;
 
 export default reducer;
-export const { authorizeUser, logoutUser } = actions;
+export const { authorizeUser, logoutUser, updateUserProfile } = actions;

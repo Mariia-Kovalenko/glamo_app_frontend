@@ -3,7 +3,7 @@
 
 .profile {
     background-color: #f6f6f6;
-    height: 100vh;
+    height: calc(100vh - 100px);
     padding-top: 30px;
 
     &__inner {
@@ -101,4 +101,10 @@
 
 .tabs {
     flex: 1 1 70%;
+}
+
+@media screen and (max-width: 768px) {
+    .profile__inner {
+        flex-direction: column;
+    }
 }
