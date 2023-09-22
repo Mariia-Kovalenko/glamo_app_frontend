@@ -7,17 +7,19 @@ import "./Profile.scss";
 import { UsersService } from "../../services/apiService";
 import { IUserState, updateUserProfile } from "../../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import ProfileTabs from "./ProfileTabs/ProfileTabs";
 
 const userMock = masters[0];
 
-type UserInfo ={
-    id: string,
-    username: string,
-    email: string,
-    role: string,
-    address: string,
-    profileImage: string,
-    phone: string,
+export type UserInfo = {
+    id: string;
+    username: string;
+    email: string;
+    role: string;
+    address: string;
+    profileImage: string;
+    phone: string;
+    services: string[];
 };
 
 export default function Profile() {
@@ -25,13 +27,14 @@ export default function Profile() {
     const user = useSelector((state: { user: IUserState }) => state.user);
 
     const [userInfo, setUserInfo] = useState<UserInfo>({
-        id: '',
+        id: "",
         username: user.username,
-        email: '',
+        email: "",
         role: user.role,
-        address: '',
+        address: "",
         profileImage: user.profileImage,
-        phone: ''
+        phone: "",
+        services: [],
     });
 
     const dispatch = useDispatch();
@@ -57,32 +60,34 @@ export default function Profile() {
 
     function fetchUser(token: string) {
         UsersService.getProfileInfo(token)
-            .then(res => {
+            .then((res) => {
                 console.log(res);
                 const {
-                    username, 
+                    username,
                     id,
                     email,
                     phone,
                     address,
                     profileImage,
-                    role
+                    role,
+                    services,
                 } = res.data;
                 setUserInfo({
                     username,
-                    id, 
+                    id,
                     email,
                     address,
                     phone,
                     profileImage,
-                    role
+                    role,
+                    services,
                 });
 
                 dispatch(updateUserProfile(profileImage));
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
-            })
+            });
     }
 
     return (
@@ -125,36 +130,57 @@ export default function Profile() {
                             </div>
                             <div className="info__item">
                                 <div className="info__title">Address</div>
-                                <div className="info__data">
-                                    {userInfo.address || 'no address'}
-                                </div>
+                                {userInfo.address ? (
+                                    <div className="info__data">
+                                        {userInfo.address}
+                                    </div>
+                                ) : (
+                                    <div className="info__data no-data">
+                                        Incomplete
+                                    </div>
+                                )}
                             </div>
                             <div className="info__item">
                                 <div className="info__title">Phone</div>
-                                <div className="info__data">
-                                    {userInfo.phone || 'no phone'}
-                                </div>
+                                {userInfo.phone ? (
+                                    <div className="info__data">
+                                        {userInfo.phone}
+                                    </div>
+                                ) : (
+                                    <div className="info__data no-data">
+                                        Incomplete
+                                    </div>
+                                )}
                             </div>
                             <div className="info__item">
                                 <div className="info__title">Services</div>
                                 <div className="info__services">
-                                    {userMock.services.map((service) => {
-                                        const type = servicesList.find(
-                                            (item) => item.typeId === service
-                                        );
-                                        return type ? (
-                                            <Chip
-                                                key={type._id}
-                                                text={type.name}
-                                                onClick={() => {}}
-                                            />
-                                        ) : null;
-                                    })}
+                                    {userInfo.services ? (
+                                        userInfo.services.map((service) => {
+                                            const type = servicesList.find(
+                                                (item) =>
+                                                    item.typeId === service
+                                            );
+                                            return type ? (
+                                                <Chip
+                                                    key={type._id}
+                                                    text={type.name}
+                                                    onClick={() => {}}
+                                                />
+                                            ) : null;
+                                        })
+                                    ) : (
+                                        <div className="info__data no-data">
+                                            Incomplete
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="profile__section tabs">tabs</div>
+                    <div className="profile__section tabs-section">
+                        <ProfileTabs userInfo={userInfo} />
+                    </div>
                 </div>
             </div>
             {uploadFile && (

@@ -8,13 +8,13 @@ import Button from "../../../common/Button/Button";
 
 interface IMapFilterProps {
     handleUserLocation: (position: any) => void;
-    isCheckboxChecked: boolean;
     selectedCategory: string;
     setSelectedCategory: (c: string) => void;
     setSearchRadius: (r: number) => void;
-    setIsCheckboxChecked: (val: boolean) => void;
     handleCheckboxChange: () => void;
     applyFilter: () => void;
+    isCheckboxChecked: boolean;
+    setIsCheckboxChecked: (val: boolean) => void;
 }
 
 export default function MapFilters({

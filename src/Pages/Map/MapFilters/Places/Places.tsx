@@ -18,14 +18,18 @@ type PlacesProps = {
 	isCheckboxChecked: boolean;
 	setIsCheckboxChecked: () => void;
 	setUserLocation: (position: { lat: number; lng: number }) => void;
-	inputStyle?: 'outlined' | 'filled'
+	inputStyle?: 'outlined' | 'filled';
+	setUserAddress?: (address: string) => void,
+	error?: boolean
 };
 
 function Places({
 	isCheckboxChecked,
 	setIsCheckboxChecked,
 	setUserLocation,
-	inputStyle
+	inputStyle,
+	setUserAddress,
+	error
 }: PlacesProps) {
 	const {
 		ready,
@@ -41,7 +45,8 @@ function Places({
 		}
 	}, [isCheckboxChecked, setValue]);
 
-	const inputClass = inputStyle === 'outlined' ? 'combobox outlined' : 'combobox';
+	let inputClass = inputStyle === 'outlined' ? 'combobox outlined' : 'combobox';
+	inputClass += error ? " error-input " : '';
 
 	const handleSelect = async (val: string) => {
 		if (isCheckboxChecked) {
@@ -51,6 +56,10 @@ function Places({
 		clearSuggestions();
 
 		const results = await getGeocode({ address: val });
+		// set address
+		if (setUserAddress) {
+			setUserAddress(val);
+		}
 		const { lat, lng } = getLatLng(results[0]);
 		console.log(`${val} location is: ${lat}, ${lng}`);
 		setUserLocation({ lat, lng });

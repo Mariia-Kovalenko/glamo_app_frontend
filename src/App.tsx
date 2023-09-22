@@ -8,11 +8,12 @@ import Layout from "./Layout/PageLayout/PageLayout";
 import NotFound from "./Pages/NotFound/NotFound";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import Profile from "./Pages/Profile/Profile";
+import { LIBRARIES } from "./constants";
 
 function App() {
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: "AIzaSyDBaWV6UYaOYLjYHEc0KHTAcs5bFQW51k0",
-        libraries: ["places"],
+        libraries: ['places'],
     });
     return (
         <div className="App">

@@ -29,7 +29,7 @@ export default function Input({
 
     let inputClass = "input ";
     inputClass += fullWidth && "fullWidth ";
-    // inputClass += error && "error ";
+    inputClass += error && "error-input ";
 
     const toggleShowPassword = () => {
         setIsPasswordVisible((prev) => !prev);

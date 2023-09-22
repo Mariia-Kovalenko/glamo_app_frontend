@@ -86,15 +86,24 @@ export default function Header() {
                                 />
                             </li>
                         ) : (
-                            <button onClick={() => navigate("/profile")}>
-                                <Avatar
-                                    src={
-                                        user.profileImage
-                                            ? `${API_URL}${USERS}profile-image/${user.profileImage}`
-                                            : "./Avatar-default.svg"
+                            <li className="nav__item">
+                                <NavLink
+                                    to="/profile"
+                                    className={({ isActive }) =>
+                                        isActive
+                                            ? "nav__link active"
+                                            : "nav__link"
                                     }
-                                />
-                            </button>
+                                >
+                                    <Avatar
+                                        src={
+                                            user.profileImage
+                                                ? `${API_URL}${USERS}profile-image/${user.profileImage}`
+                                                : "./Avatar-default.svg"
+                                        }
+                                    />
+                                </NavLink>
+                            </li>
                         )}
                         {!user.isAuth ? (
                             <li className="nav__item">

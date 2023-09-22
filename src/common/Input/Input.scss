@@ -8,20 +8,20 @@
 }
 
 .input {
-    @include mixins.button-styles-light($minWidth: 400px, $fz: 16px);
+    @include mixins.button-styles-light($minWidth: 100%, $fz: 16px);
+    max-width: 100%;
     text-transform: initial;
     border: 2px solid variables.$grey-border;
     padding: 15px 18px;
 
-    &.error {
+    &.error-input {
         border: 2px solid variables.$red;
     }
 
     &__inner {
         position: relative;
-        width: fit-content;
+        min-width: 400px;
     }
-
 }
 
 .toggle-show-password {
@@ -40,6 +40,7 @@
             width: 100%;
         }
     &, &__inner {
+        min-width: 250px;
         width: 100%;
     }
     }

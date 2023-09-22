@@ -1,0 +1,53 @@
+@use '../../../styles/mixins';
+@use '../../../styles/variables';
+
+.tabs {
+    &__list {
+        padding: 0 20px;
+        @include mixins.flex-item($gap: 30px);
+        height: 55px;
+        border-bottom: 1.6px solid variables.$light-grey;
+    }
+
+    &__content {
+        padding: 30px 20px;
+    }
+}
+
+.edit-profile {
+    &__form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    &__actions {
+        @include mixins.flex-item($gap: 20px, $jc: flex-end);
+    }
+}
+
+.services__list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+
+@media screen and (max-width: 1300px) {
+    .edit-profile {
+        &__form {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .edit-profile__actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .tabs__content {
+        padding: 20px 15px;
+    }
+}

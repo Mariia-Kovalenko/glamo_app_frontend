@@ -46,6 +46,12 @@
 
         &.active {
             font-weight: 700;
+
+            
+            & .avatar {
+                outline: 2px solid variables.$black;
+                padding: 1px;
+            }
         }
     }
 }
