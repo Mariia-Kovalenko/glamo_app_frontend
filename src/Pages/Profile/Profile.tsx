@@ -44,10 +44,9 @@ export default function Profile() {
     }, []);
 
     const handleFileUpload = (formData: FormData) => {
-        console.log(formData);
         UsersService.uploadProfileImage(user.token, formData)
             .then((res) => {
-                console.log(res);
+                console.log('User Info received:', res);
                 if (res.status === 201) {
                     setUploadFile(false);
                     fetchUser(user.token);
@@ -61,7 +60,6 @@ export default function Profile() {
     function fetchUser(token: string) {
         UsersService.getProfileInfo(token)
             .then((res) => {
-                console.log(res);
                 const {
                     username,
                     id,
@@ -72,6 +70,7 @@ export default function Profile() {
                     role,
                     services,
                 } = res.data;
+
                 setUserInfo({
                     username,
                     id,

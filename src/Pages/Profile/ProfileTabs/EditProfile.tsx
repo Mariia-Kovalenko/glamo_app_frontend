@@ -22,7 +22,7 @@ export default function EditProfile({ userInfo }: { userInfo: UserInfo }) {
     const [userServicesList, setUserServicesList] = useState<string[]>([]);
     const [userAddress, setUserAddress] = useState<string>('');
 
-    const {values, handleChange} = useFormik({
+    const {values, handleChange, setFieldValue} = useFormik({
         initialValues: {
             username: userInfo.username,
             email: userInfo.email,
@@ -32,11 +32,11 @@ export default function EditProfile({ userInfo }: { userInfo: UserInfo }) {
     })
 
     useEffect(() => {
-        console.log(userInfo);
-        setUserServicesList(userInfo.services);
+        setFieldValue('email', userInfo.email);
+        setFieldValue('phone', userInfo.phone);
         setUserAddress(userInfo.address);
-        console.log(values);
-    }, [userInfo.services]);
+        setUserServicesList(userInfo.services);
+    }, [userInfo])
 
     const handleUserLocation = (position: any) => {
         console.log("new Location:", position);

@@ -20,7 +20,7 @@ type PlacesProps = {
 	setUserLocation: (position: { lat: number; lng: number }) => void;
 	inputStyle?: 'outlined' | 'filled';
 	setUserAddress?: (address: string) => void,
-	error?: boolean
+	error?: boolean,
 };
 
 function Places({
@@ -29,7 +29,7 @@ function Places({
 	setUserLocation,
 	inputStyle,
 	setUserAddress,
-	error
+	error,
 }: PlacesProps) {
 	const {
 		ready,
