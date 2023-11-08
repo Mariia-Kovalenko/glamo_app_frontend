@@ -81,13 +81,13 @@ export default function MapFilters({
             </div>
 
             <div className="filters__section buttons">
+                <Button text={"search"} onClick={applyFilter} fullWidth={true} />
                 <Button
                     color="light"
                     text={"clear all"}
                     onClick={clearFilters}
                     fullWidth={true}
                 />
-                <Button text={"search"} onClick={applyFilter} fullWidth={true} />
             </div>
         </div>
     );

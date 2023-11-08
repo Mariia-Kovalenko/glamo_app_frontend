@@ -4,8 +4,8 @@
 .results {
     min-width: 300px;
     &__title {
-        font-size: 18px;
-        font-weight: 500;
+        font-size: 20px;
+        font-weight: 600;
         height: 30px;
         background-color: white;
         width: 100%;
@@ -27,7 +27,7 @@
     border-radius: 20px;
     border: 1px solid #f2f2f2;
     background: white;
-    min-height: 380px;
+    min-height: fit-content;
     min-width: 280px;
     @include mixins.flex-item($direction: column);
 

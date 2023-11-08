@@ -90,7 +90,7 @@ export function MastersView({
                 })
             ) :  (
                 <div className="no-results">
-                    Start Searching for Beauty Masters!
+                    No results Yet! <br/> Start Searching for Beauty Masters!
                 </div>
             )}
         </div>
