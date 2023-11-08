@@ -34,6 +34,7 @@ export default function Login() {
         }
         AuthService.login(values.email, values.password)
             .then((res) => {
+                console.log(res);
                 const { id, username, role, access_token, profileImage } = res.data;
                 dispatch(
                     authorizeUser(

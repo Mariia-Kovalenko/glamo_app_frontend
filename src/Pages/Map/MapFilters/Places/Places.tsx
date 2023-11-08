@@ -29,7 +29,7 @@ function Places({
 	setUserLocation,
 	inputStyle,
 	setUserAddress,
-	error,
+	error
 }: PlacesProps) {
 	const {
 		ready,
@@ -38,6 +38,7 @@ function Places({
 		suggestions: { status, data },
 		clearSuggestions,
 	} = usePlacesAutocomplete();
+
 
 	useEffect(() => {
 		if (isCheckboxChecked) {
@@ -61,7 +62,6 @@ function Places({
 			setUserAddress(val);
 		}
 		const { lat, lng } = getLatLng(results[0]);
-		console.log(`${val} location is: ${lat}, ${lng}`);
 		setUserLocation({ lat, lng });
 	};
 

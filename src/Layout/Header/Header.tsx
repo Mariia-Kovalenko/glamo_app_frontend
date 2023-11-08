@@ -30,9 +30,9 @@ export default function Header() {
     const navigate = useNavigate();
 
     const logout = () => {
-        dispatch(logoutUser);
+        dispatch(logoutUser());
         LocalStorageService.removeUserFromLocal();
-        navigate(0);
+        navigate('/map');
     };
 
     return (

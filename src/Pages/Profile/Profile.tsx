@@ -5,9 +5,16 @@ import { API_URL, USERS } from "../../constants";
 import { masters, servicesList } from "../../mocks/mocks";
 import "./Profile.scss";
 import { UsersService } from "../../services/apiService";
-import { IUserState, updateUserProfile } from "../../store/user/userSlice";
+import {
+    IUserState,
+    Role,
+    authorizeUser,
+    updateUserProfile,
+} from "../../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileTabs from "./ProfileTabs/ProfileTabs";
+import EditProfile from "./ProfileTabs/EditProfile";
+import { LocalStorageService } from "../../services/localStorageService";
 
 const userMock = masters[0];
 
@@ -16,10 +23,10 @@ export type UserInfo = {
     username: string;
     email: string;
     role: string;
-    address: string;
     profileImage: string;
     phone: string;
     services: string[];
+    address: string;
 };
 
 export default function Profile() {
@@ -40,13 +47,19 @@ export default function Profile() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchUser(user.token);
+        console.log(user);
+        if (user.isAuth) {
+            fetchUser(user.token);
+        } else {
+            const userFromStorage = LocalStorageService.getUserFromLocal();
+            fetchUser(String(userFromStorage.token));
+        }
     }, []);
 
     const handleFileUpload = (formData: FormData) => {
         UsersService.uploadProfileImage(user.token, formData)
             .then((res) => {
-                console.log('User Info received:', res);
+                console.log("User Info received:", res);
                 if (res.status === 201) {
                     setUploadFile(false);
                     fetchUser(user.token);
@@ -60,6 +73,7 @@ export default function Profile() {
     function fetchUser(token: string) {
         UsersService.getProfileInfo(token)
             .then((res) => {
+                console.log(res);
                 const {
                     username,
                     id,
@@ -82,7 +96,21 @@ export default function Profile() {
                     services,
                 });
 
-                dispatch(updateUserProfile(profileImage));
+                if (!user.isAuth) {
+                    console.log("auto login");
+                    dispatch(
+                        authorizeUser(
+                            id,
+                            true,
+                            username,
+                            role,
+                            String(
+                                LocalStorageService.getUserFromLocal().token
+                            ),
+                            profileImage
+                        )
+                    );
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -114,11 +142,15 @@ export default function Profile() {
                             <div className="user__name">
                                 {userInfo.username}
                             </div>
-                            <div className="user__role">Beauty Master</div>
-                            <div className="user__rating">
+                            <div className="user__role">
+                                {user.role === Role.MASTER
+                                    ? "Beauty Master"
+                                    : "Customer"}
+                            </div>
+                            {/* <div className="user__rating">
                                 <img src="/star.svg" alt="star" />
                                 <p>4.3</p>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="bio__info info">
                             <div className="info__item">
@@ -127,58 +159,73 @@ export default function Profile() {
                                     {userInfo.email}
                                 </div>
                             </div>
-                            <div className="info__item">
-                                <div className="info__title">Address</div>
-                                {userInfo.address ? (
-                                    <div className="info__data">
-                                        {userInfo.address}
-                                    </div>
-                                ) : (
-                                    <div className="info__data no-data">
-                                        Incomplete
-                                    </div>
-                                )}
-                            </div>
-                            <div className="info__item">
-                                <div className="info__title">Phone</div>
-                                {userInfo.phone ? (
-                                    <div className="info__data">
-                                        {userInfo.phone}
-                                    </div>
-                                ) : (
-                                    <div className="info__data no-data">
-                                        Incomplete
-                                    </div>
-                                )}
-                            </div>
-                            <div className="info__item">
-                                <div className="info__title">Services</div>
-                                <div className="info__services">
-                                    {userInfo.services ? (
-                                        userInfo.services.map((service) => {
-                                            const type = servicesList.find(
-                                                (item) =>
-                                                    item.typeId === service
-                                            );
-                                            return type ? (
-                                                <Chip
-                                                    key={type._id}
-                                                    text={type.name}
-                                                    onClick={() => {}}
-                                                />
-                                            ) : null;
-                                        })
-                                    ) : (
-                                        <div className="info__data no-data">
-                                            Incomplete
+                            {user.role === Role.MASTER && (
+                                <div>
+                                    <div className="info__item">
+                                        <div className="info__title">
+                                            Address
                                         </div>
-                                    )}
+                                        {userInfo.address ? (
+                                            <div className="info__data">
+                                                {userInfo.address}
+                                            </div>
+                                        ) : (
+                                            <div className="info__data no-data">
+                                                Incomplete
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="info__item">
+                                        <div className="info__title">Phone</div>
+                                        {userInfo.phone ? (
+                                            <div className="info__data">
+                                                {userInfo.phone}
+                                            </div>
+                                        ) : (
+                                            <div className="info__data no-data">
+                                                Incomplete
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="info__item">
+                                        <div className="info__title">
+                                            Services
+                                        </div>
+                                        <div className="info__services">
+                                            {userInfo.services ? (
+                                                userInfo.services.map(
+                                                    (service) => {
+                                                        const type =
+                                                            servicesList.find(
+                                                                (item) =>
+                                                                    item.typeId ===
+                                                                    service
+                                                            );
+                                                        return type ? (
+                                                            <Chip
+                                                                key={type._id}
+                                                                text={type.name}
+                                                                onClick={() => {}}
+                                                            />
+                                                        ) : null;
+                                                    }
+                                                )
+                                            ) : (
+                                                <div className="info__data no-data">
+                                                    Incomplete
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                     <div className="profile__section tabs-section">
-                        <ProfileTabs userInfo={userInfo} />
+                        <ProfileTabs
+                            userInfo={userInfo}
+                            fetchUser={fetchUser}
+                        />
                     </div>
                 </div>
             </div>

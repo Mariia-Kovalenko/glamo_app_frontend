@@ -84,6 +84,24 @@ export class UsersService {
             },
         });
     }
+
+	static updateMaster(
+		access_token: string, 
+		userData: {
+			username: string,
+			email: string,
+			phone: string,
+			address: string,
+			location: { lat: string | number; lng: string | number },
+			services: string[]
+		}
+	) {
+		return axios.patch(API_URL + USERS + 'update-master', userData, {
+			headers: {
+                authorization: `Bearer ${access_token}`
+            },
+		})
+	}
 }
 
 export class ServicesListService {
