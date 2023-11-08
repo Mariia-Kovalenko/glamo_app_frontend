@@ -9,12 +9,53 @@ import NotFound from "./Pages/NotFound/NotFound";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import Profile from "./Pages/Profile/Profile";
 import { LIBRARIES } from "./constants";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { IUserState, authorizeUser } from "./store/user/userSlice";
+import { LocalStorageService } from "./services/localStorageService";
+import { UsersService } from "./services/apiService";
 
 function App() {
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: "AIzaSyDBaWV6UYaOYLjYHEc0KHTAcs5bFQW51k0",
-        libraries: ['places'],
+        libraries: ["places"],
     });
+
+    const user = useSelector((state: { user: IUserState }) => state.user);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!user.isAuth) {
+            const userFromStorage = LocalStorageService.getUserFromLocal();
+
+            if (userFromStorage) {
+                fetchUser(String(userFromStorage.token));
+            }
+        }
+    }, []);
+
+    function fetchUser(token: string) {
+        UsersService.getProfileInfo(token)
+            .then((res) => {
+                console.log(res);
+                const { username, id, profileImage, role } = res.data;
+                console.log("auto login app");
+                dispatch(
+                    authorizeUser(
+                        id,
+                        true,
+                        username,
+                        role,
+                        String(LocalStorageService.getUserFromLocal().token),
+                        profileImage
+                    )
+                );
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
     return (
         <div className="App">
             <BrowserRouter>

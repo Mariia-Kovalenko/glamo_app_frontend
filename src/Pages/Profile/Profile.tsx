@@ -47,19 +47,18 @@ export default function Profile() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(user);
         if (user.isAuth) {
             fetchUser(user.token);
-        } else {
-            const userFromStorage = LocalStorageService.getUserFromLocal();
-            fetchUser(String(userFromStorage.token));
         }
-    }, []);
+        // } else {
+        //     const userFromStorage = LocalStorageService.getUserFromLocal();
+        //     fetchUser(String(userFromStorage.token));
+        // }
+    }, [user]);
 
     const handleFileUpload = (formData: FormData) => {
         UsersService.uploadProfileImage(user.token, formData)
             .then((res) => {
-                console.log("User Info received:", res);
                 if (res.status === 201) {
                     setUploadFile(false);
                     fetchUser(user.token);
@@ -96,21 +95,21 @@ export default function Profile() {
                     services,
                 });
 
-                if (!user.isAuth) {
-                    console.log("auto login");
-                    dispatch(
-                        authorizeUser(
-                            id,
-                            true,
-                            username,
-                            role,
-                            String(
-                                LocalStorageService.getUserFromLocal().token
-                            ),
-                            profileImage
-                        )
-                    );
-                }
+                // if (!user.isAuth) {
+                //     console.log("auto login");
+                //     dispatch(
+                //         authorizeUser(
+                //             id,
+                //             true,
+                //             username,
+                //             role,
+                //             String(
+                //                 LocalStorageService.getUserFromLocal().token
+                //             ),
+                //             profileImage
+                //         )
+                //     );
+                // }
             })
             .catch((err) => {
                 console.log(err);
@@ -160,62 +159,56 @@ export default function Profile() {
                                 </div>
                             </div>
                             {user.role === Role.MASTER && (
-                                <div>
-                                    <div className="info__item">
-                                        <div className="info__title">
-                                            Address
+                                <div className="info__item">
+                                    <div className="info__title">Address</div>
+                                    {userInfo.address ? (
+                                        <div className="info__data">
+                                            {userInfo.address}
                                         </div>
-                                        {userInfo.address ? (
-                                            <div className="info__data">
-                                                {userInfo.address}
-                                            </div>
+                                    ) : (
+                                        <div className="info__data no-data">
+                                            Incomplete
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                            {user.role === Role.MASTER && (
+                                <div className="info__item">
+                                    <div className="info__title">Phone</div>
+                                    {userInfo.phone ? (
+                                        <div className="info__data">
+                                            {userInfo.phone}
+                                        </div>
+                                    ) : (
+                                        <div className="info__data no-data">
+                                            Incomplete
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                            {user.role === Role.MASTER && (
+                                <div className="info__item">
+                                    <div className="info__title">Services</div>
+                                    <div className="info__services">
+                                        {userInfo.services ? (
+                                            userInfo.services.map((service) => {
+                                                const type = servicesList.find(
+                                                    (item) =>
+                                                        item.typeId === service
+                                                );
+                                                return type ? (
+                                                    <Chip
+                                                        key={type._id}
+                                                        text={type.name}
+                                                        onClick={() => {}}
+                                                    />
+                                                ) : null;
+                                            })
                                         ) : (
                                             <div className="info__data no-data">
                                                 Incomplete
                                             </div>
                                         )}
-                                    </div>
-                                    <div className="info__item">
-                                        <div className="info__title">Phone</div>
-                                        {userInfo.phone ? (
-                                            <div className="info__data">
-                                                {userInfo.phone}
-                                            </div>
-                                        ) : (
-                                            <div className="info__data no-data">
-                                                Incomplete
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="info__item">
-                                        <div className="info__title">
-                                            Services
-                                        </div>
-                                        <div className="info__services">
-                                            {userInfo.services ? (
-                                                userInfo.services.map(
-                                                    (service) => {
-                                                        const type =
-                                                            servicesList.find(
-                                                                (item) =>
-                                                                    item.typeId ===
-                                                                    service
-                                                            );
-                                                        return type ? (
-                                                            <Chip
-                                                                key={type._id}
-                                                                text={type.name}
-                                                                onClick={() => {}}
-                                                            />
-                                                        ) : null;
-                                                    }
-                                                )
-                                            ) : (
-                                                <div className="info__data no-data">
-                                                    Incomplete
-                                                </div>
-                                            )}
-                                        </div>
                                     </div>
                                 </div>
                             )}
