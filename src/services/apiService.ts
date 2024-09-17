@@ -96,7 +96,7 @@ export class UsersService {
 			services: string[]
 		}
 	) {
-		return axios.patch(API_URL + USERS + 'update-master', userData, {
+		return axios.patch(API_URL + USERS + 'update', userData, {
 			headers: {
                 authorization: `Bearer ${access_token}`
             },

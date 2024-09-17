@@ -21,9 +21,11 @@ export default function Header() {
         if (!isMenuOpened) {
             setBurgerClassName("burger close");
             setNavClassName("nav open");
+            document.body.style.overflow = "hidden";
         } else {
             setBurgerClassName("burger open");
             setNavClassName("nav close");
+            document.body.style.overflow = "auto";
         }
     };
 
@@ -55,7 +57,7 @@ export default function Header() {
                 </button>
                 <nav className={navClassName}>
                     <ul className="nav__list">
-                        <li className="nav__item">
+                        {/* <li className="nav__item">
                             <NavLink
                                 to="/home"
                                 className={({ isActive }) =>
@@ -64,7 +66,7 @@ export default function Header() {
                             >
                                 Home
                             </NavLink>
-                        </li>
+                        </li> */}
                         <li className="nav__item">
                             <NavLink
                                 to="/map"

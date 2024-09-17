@@ -62,6 +62,7 @@ export default function Profile() {
                 if (res.status === 201) {
                     setUploadFile(false);
                     fetchUser(user.token);
+                    window.location.reload();
                 }
             })
             .catch((error) => {

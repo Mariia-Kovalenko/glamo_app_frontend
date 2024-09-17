@@ -78,11 +78,9 @@ export default function FileUploaderComponent({title, onClose, handleFileUpload}
 
     const uploadFile = () => {
         // upload file
-        console.log("send this file:", file);
         const formData = new FormData();
         if (file) {
             formData.append("file", file);
-            console.log(formData);
         }
 
         // console.log(formData);

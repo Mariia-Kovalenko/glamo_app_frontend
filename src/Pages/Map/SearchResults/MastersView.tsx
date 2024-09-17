@@ -77,12 +77,12 @@ export function MastersView({
                                             handleFetchDirection(master._id);
                                         }}
                                     />
-                                    <Button
+                                    {/* <Button
                                         text={"view profile"}
                                         fullWidth
                                         size="small"
                                         onClick={() => {}}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                         </div>

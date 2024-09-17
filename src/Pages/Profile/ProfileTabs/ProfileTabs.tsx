@@ -19,14 +19,14 @@ export default function ProfileTabs({
     return (
         <div className="tabs-container tabs">
             <ul className="tabs__list">
-                {userInfo.role === Role.MASTER && (
+                {/* {userInfo.role === Role.MASTER && (
                     <TabNavItem
                         id={TAB1}
                         title={"My Works"}
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
                     />
-                )}
+                )} */}
                 <TabNavItem
                     id={TAB2}
                     title={"Edit Profile"}

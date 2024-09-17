@@ -107,7 +107,7 @@
         position: fixed;
         right: -100%;
         top: 80px;
-        z-index: 100;
+        z-index: 200;
         background-color: white;
         @include mixins.size(100%, 100%);
         &__list {
@@ -121,7 +121,7 @@
         }
         &.open {
             right: 0;
-            z-index: 100;
+            z-index: 200;
         }
     }
 }
