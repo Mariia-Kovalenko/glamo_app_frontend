@@ -4,6 +4,7 @@
 .range-slider-wrapper {
     min-width: 300px;
     width: 100%;
+    margin-top: 20px;
 }
 
 input[type="range"] {
@@ -160,13 +161,13 @@ input[type="range"] {
     }
 }
 
-datalist {
+datalist, .range-slider-labels {
     @include mixins.flex-item($direction: row, $jc: space-between, $ai: start);
     writing-mode: horizontal-tb;
     width: 100%;
 }
 
-option {
+option, .label-option {
     font-size: 13px;
     color: variables.$black;
 

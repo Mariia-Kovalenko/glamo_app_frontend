@@ -15,6 +15,8 @@ interface IMapFilterProps {
     applyFilter: () => void;
     isCheckboxChecked: boolean;
     setIsCheckboxChecked: (val: boolean) => void;
+    isSearchEnabled: boolean;
+    setIsSearchEnabled: (val: boolean) => void;
 }
 
 export default function MapFilters({
@@ -25,18 +27,20 @@ export default function MapFilters({
     setSearchRadius,
     setIsCheckboxChecked,
     handleCheckboxChange,
-    applyFilter
+    applyFilter,
+    isSearchEnabled,
+    setIsSearchEnabled
 }: IMapFilterProps) {
-    
     const handleSelectCategory = (id: string) => {
         setSelectedCategory(id);
     };
 
     const clearFilters = () => {
         setSearchRadius(5);
-        setSelectedCategory('');
+        setSelectedCategory("");
         setIsCheckboxChecked(true);
-    }
+        setIsSearchEnabled(false);
+    };
 
     return (
         <div className="map__filters filters">
@@ -81,7 +85,12 @@ export default function MapFilters({
             </div>
 
             <div className="filters__section buttons">
-                <Button text={"search"} onClick={applyFilter} fullWidth={true} />
+                <Button
+                    text={"search"}
+                    onClick={applyFilter}
+                    fullWidth={true}
+                    disabled={!isSearchEnabled}
+                />
                 <Button
                     color="light"
                     text={"clear all"}

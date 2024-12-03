@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MapFilters from "./MapFilters/MapFilters";
 import "./Map.scss";
 import MapGoogle from "./MapGoogle/MapGoogle";
@@ -30,7 +30,7 @@ export default function Map() {
         lng: 30.3810942,
     });
     const [isCheckboxChecked, setIsCheckboxChecked] = useState(true);
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState('');
     const [searchRadius, setSearchRadius] = useState(5);
     const [mastersList, setMastersList] = useState<any>(null);
     const [mastersLocations, setMastersLocations] = useState<any>(null);
@@ -40,6 +40,7 @@ export default function Map() {
         message: "Error",
     });
     const [showOnMap, setShowOnMap] = useState(null);
+    const [isSearchEnabled, setIsSearchEnabled] = useState(false);
 
     const user = useSelector((state: { user: IUserState }) => state.user);
 
@@ -57,7 +58,18 @@ export default function Map() {
         setShowOnMap(masterToShow);
     }
 
+    useEffect(() => {
+        if (selectedCategory) {
+            setIsSearchEnabled(true);
+        }
+    }, [selectedCategory])
+
     function fetchMasters() {
+        if (!selectedCategory) {
+            // console.log('No category', selectedCategory);
+            setIsSearchEnabled(false);
+            return;
+        }
         setIsLoading(true);
         if (requestError.error) {
             setRequestError({error: false, message: ''});
@@ -97,6 +109,8 @@ export default function Map() {
                     setIsCheckboxChecked={setIsCheckboxChecked}
                     handleCheckboxChange={handleCheckboxChange}
                     applyFilter={fetchMasters}
+                    isSearchEnabled={isSearchEnabled}
+                    setIsSearchEnabled={setIsSearchEnabled}
                 />
 
                 <div className="map__google-map">

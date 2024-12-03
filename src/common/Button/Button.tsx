@@ -6,10 +6,11 @@ interface ButtonProps {
     size?: 'small' | 'large';
     color?: 'dark' | 'light' | 'grey';
 	fullWidth?: boolean;
-	type?: "button" | "submit" | "reset" | undefined
+	type?: "button" | "submit" | "reset" | undefined;
+	disabled?: boolean | false
 }
 
-function Button({ text, onClick, size, color, fullWidth, type }: ButtonProps) {
+function Button({ text, onClick, size, color, fullWidth, type, disabled }: ButtonProps) {
 	let buttonClass = 'btn ';
 
     buttonClass += size + ' ' || 'large ';
@@ -24,6 +25,7 @@ function Button({ text, onClick, size, color, fullWidth, type }: ButtonProps) {
 				onClick();
 			}}
 			type={type}
+			disabled={disabled}
 		>
 			{text}
 		</button>

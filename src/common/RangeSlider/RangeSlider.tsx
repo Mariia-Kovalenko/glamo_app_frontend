@@ -16,27 +16,33 @@ export default function RangeSlider({
 }: IRangeSliderProps) {
     const [minValue, setMinValue] = useState(min);
     const [maxValue, setMaxValue] = useState(min + step);
-    const labelOptions = [];
 
+    const labelOptions = [];
     for (let i = min; i <= max; i += step) {
         labelOptions.push(i);
     }
-    const handleMaxChange = (event: any) => {
-        event.preventDefault();
+
+    const handleMaxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseFloat(event.target.value);
-        // the new max value is the value from the event.
-        // it must not be less than the current min value!
         const newMaxVal = Math.max(value, minValue + step);
         setMaxValue(newMaxVal);
         setValue(newMaxVal);
     };
+
     return (
         <div className="range-slider-wrapper">
-            <datalist>
+           
+            <div className="range-slider-labels">
                 {labelOptions.map((option, i) => (
-                    <option key={i} value={option} label={`${option}`}></option>
+                    <span
+                        key={i}
+                        className={`label-option ${option <= maxValue ? "active" : ""}`}
+                        style={{ left: `${((option - min) / (max - min)) * 100}%` }}
+                    >
+                        {option}
+                    </span>
                 ))}
-            </datalist>
+            </div>
             <input
                 type="range"
                 min={min}
@@ -44,6 +50,7 @@ export default function RangeSlider({
                 value={maxValue}
                 step={step}
                 onChange={handleMaxChange}
+                className="range-slider"
             />
         </div>
     );
