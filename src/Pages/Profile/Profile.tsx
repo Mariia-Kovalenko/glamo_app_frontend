@@ -126,8 +126,7 @@ export default function Profile() {
                             <img
                                 src={
                                     userInfo.profileImage
-                                        ? `${API_URL}${USERS}profile-image/${userInfo.profileImage}`
-                                        : "./Avatar-default.svg"
+                                        || "./Avatar-default.svg"
                                 }
                                 alt="profile-img"
                             />

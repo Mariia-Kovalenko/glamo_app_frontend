@@ -100,8 +100,8 @@ export default function Header() {
                                     <Avatar
                                         src={
                                             user.profileImage
-                                                ? `${API_URL}${USERS}profile-image/${user.profileImage}`
-                                                : "./Avatar-default.svg"
+                                                ||
+                                                 "./Avatar-default.svg"
                                         }
                                     />
                                 </NavLink>

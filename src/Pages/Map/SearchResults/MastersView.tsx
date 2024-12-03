@@ -34,8 +34,7 @@ export function MastersView({
                                 <img
                                     src={
                                         master.profileImage
-                                            ? `${API_URL}${USERS}profile-image/${master.profileImage}`
-                                            : "./Avatar-default.svg"
+                                            || "./Avatar-default.svg"
                                     }
                                     alt="userphoto"
                                 />
