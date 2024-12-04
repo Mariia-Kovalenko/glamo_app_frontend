@@ -74,6 +74,12 @@ export function MastersView({
                                         size="small"
                                         onClick={() => {
                                             handleFetchDirection(master._id);
+                                            if (window.innerWidth < 1200) {
+                                                const mapElement = document.querySelector('.google-map');
+                                                if (mapElement) {
+                                                    mapElement.scrollIntoView({ behavior: 'smooth' });
+                                                }
+                                            }
                                         }}
                                     />
                                     {/* <Button
