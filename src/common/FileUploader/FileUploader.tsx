@@ -99,7 +99,7 @@ export default function FileUploaderComponent({title, onClose, handleFileUpload}
                     {title}
                 </div>
                 <button className="cross large" onClick={onClose}>
-                    <img src="./close.svg" alt="close" />
+                    <img src="close.svg" alt="close" />
                 </button>
                 <form
                     id="form-file-upload"
@@ -167,7 +167,7 @@ export default function FileUploaderComponent({title, onClose, handleFileUpload}
                             </div>
 
                             <button className="cross"  onClick={() => {setFile(null)}}>
-                                <img src="./close.svg" alt="close" />
+                                <img src="close.svg" alt="close" />
                             </button>
                         </div>
                     </div>

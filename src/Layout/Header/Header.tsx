@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Avatar from "../../common/Avatar/Avatar";
 import Button from "../../common/Button/Button";
 import "./Header.scss";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { IUserState, logoutUser } from "../../store/user/userSlice";
-import { API_URL, USERS } from "../../constants";
 import { LocalStorageService } from "../../services/localStorageService";
 
 export default function Header() {
@@ -15,6 +14,9 @@ export default function Header() {
 
     const dispatch = useDispatch();
     const user = useSelector((state: { user: IUserState }) => state.user);
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const toggleSideMenu = () => {
         setIsMenuOpened((prev) => !prev);
@@ -29,13 +31,22 @@ export default function Header() {
         }
     };
 
-    const navigate = useNavigate();
-
     const logout = () => {
         dispatch(logoutUser());
         LocalStorageService.removeUserFromLocal();
         navigate('/map');
     };
+
+    // Close the navigation menu and reset body overflow on route change
+    useEffect(() => {
+        if (isMenuOpened) {
+            console.log('close menu')
+            setIsMenuOpened(false);
+            setBurgerClassName("burger open");
+            setNavClassName("nav close");
+            document.body.style.overflow = "auto";
+        }
+    }, [location.pathname]); // Run this effect whenever the route changes
 
     return (
         <header className="header">
@@ -57,16 +68,6 @@ export default function Header() {
                 </button>
                 <nav className={navClassName}>
                     <ul className="nav__list">
-                        {/* <li className="nav__item">
-                            <NavLink
-                                to="/home"
-                                className={({ isActive }) =>
-                                    isActive ? "nav__link active" : "nav__link"
-                                }
-                            >
-                                Home
-                            </NavLink>
-                        </li> */}
                         <li className="nav__item">
                             <NavLink
                                 to="/map"
@@ -83,6 +84,7 @@ export default function Header() {
                                     text={"Sign In"}
                                     color="light"
                                     onClick={() => {
+                                        document.body.style.overflow = "auto";
                                         navigate("/login");
                                     }}
                                 />
@@ -100,8 +102,7 @@ export default function Header() {
                                     <Avatar
                                         src={
                                             user.profileImage
-                                                ||
-                                                 "./Avatar-default.svg"
+                                                || "./Avatar-default.svg"
                                         }
                                     />
                                 </NavLink>
@@ -112,6 +113,7 @@ export default function Header() {
                                 <Button
                                     text={"Register"}
                                     onClick={() => {
+                                        document.body.style.overflow = "auto";
                                         navigate("/register");
                                     }}
                                 />

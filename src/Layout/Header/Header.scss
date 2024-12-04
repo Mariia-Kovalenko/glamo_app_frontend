@@ -111,7 +111,7 @@
         background-color: white;
         @include mixins.size(100%, 100%);
         &__list {
-            height: calc(100% - 100px);
+            height: calc(100% - 80px);
             width: 100%;
             background: #f2f2f2;
             @include mixins.flex-item($gap: 30px, $direction: column, $ai: center, $jc: center);

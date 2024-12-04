@@ -24,6 +24,7 @@ button {
     display: block;
     border: none;
     font: inherit;
+    color: black;
 }
 
 input {
@@ -152,9 +153,10 @@ img {
 
 @media screen and (max-width: 540px){
     .auth {
+        padding: 0;
         &__inner {
             width: 100%;
-            height: fit-content;
+            height: 100vh;
             padding-right: 15px;
             padding-left: 15px;
             border-radius: 0;

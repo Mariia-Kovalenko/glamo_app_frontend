@@ -90,6 +90,13 @@ export default function Map() {
 					}
 				});
 				setMastersLocations(locations);
+
+                if (window.innerWidth < 1200) {
+                    const resultsElement = document.querySelector('.results');
+                    if (resultsElement) {
+                        resultsElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
 			})
 			.catch((error) => {
                 setIsLoading(false);
