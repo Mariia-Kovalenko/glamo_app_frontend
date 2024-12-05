@@ -25,6 +25,7 @@ export default function Registration() {
         error: false,
         message: "Error",
     });
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate();
 
@@ -33,6 +34,7 @@ export default function Registration() {
             setRequestError({ error: true, message: "Please fill the form" });
             return;
         }
+        setIsLoading(true);
         AuthService.register(
             values.username,
             values.email,
@@ -41,10 +43,12 @@ export default function Registration() {
         )
             .then((res) => {
                 if (res.status === 201) {
+                    setIsLoading(false);
                     navigate("/login");
                 }
             })
             .catch((error) => {
+                setIsLoading(false);
                 if (error.response) {
                     setRequestError({
                         error: true,
@@ -111,7 +115,7 @@ export default function Registration() {
                 )}
 
                 <Button
-                    text="Sign Up"
+                    text={isLoading ? "Loading..." : "Sign Up"}
                     onClick={register}
                     fullWidth
                     type="submit"

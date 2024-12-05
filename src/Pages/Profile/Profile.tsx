@@ -43,6 +43,7 @@ export default function Profile() {
         phone: "",
         services: [],
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -57,8 +58,10 @@ export default function Profile() {
     }, [user]);
 
     const handleFileUpload = (formData: FormData) => {
+        setIsLoading(true);
         UsersService.uploadProfileImage(user.token, formData)
             .then((res) => {
+                setIsLoading(false);
                 if (res.status === 201) {
                     setUploadFile(false);
                     fetchUser(user.token);
@@ -66,7 +69,8 @@ export default function Profile() {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                setIsLoading(false);
+                console.error(error);
             });
     };
 
@@ -95,22 +99,6 @@ export default function Profile() {
                     role,
                     services,
                 });
-
-                // if (!user.isAuth) {
-                //     console.log("auto login");
-                //     dispatch(
-                //         authorizeUser(
-                //             id,
-                //             true,
-                //             username,
-                //             role,
-                //             String(
-                //                 LocalStorageService.getUserFromLocal().token
-                //             ),
-                //             profileImage
-                //         )
-                //     );
-                // }
             })
             .catch((err) => {
                 console.log(err);
@@ -227,6 +215,7 @@ export default function Profile() {
                     title="Upload profile image"
                     onClose={() => setUploadFile(false)}
                     handleFileUpload={handleFileUpload}
+                    isLoading={isLoading}
                 />
             )}
         </div>

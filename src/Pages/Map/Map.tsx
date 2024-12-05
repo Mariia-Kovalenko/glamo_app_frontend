@@ -118,6 +118,7 @@ export default function Map() {
                     applyFilter={fetchMasters}
                     isSearchEnabled={isSearchEnabled}
                     setIsSearchEnabled={setIsSearchEnabled}
+                    isLoading={isLoading}
                 />
 
                 <div className="map__google-map">

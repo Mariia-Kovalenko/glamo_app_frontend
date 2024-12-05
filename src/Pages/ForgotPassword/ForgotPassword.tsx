@@ -17,20 +17,22 @@ export default function ForgotPassword() {
     const [passwordSent, setPasswordSent] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate();
 
     function resetPass() {
+        setIsLoading(true);
         AuthService.resetPassword(values.email)
             .then((res) => {
-                console.log(res);
+                setIsLoading(false);
                 if (res.status === 200) {
                     setPasswordSent(true);
                     setMessage(res.data.message);
                 }
             })
             .catch((error) => {
-                console.log(error);
+                setIsLoading(false);
                 if (error.response.status === 404) {
                     setError(true);
                     setMessage(error.response.data.message);
@@ -64,7 +66,7 @@ export default function ForgotPassword() {
                     />
 
                     <Button
-                        text="Reset Pasword"
+                        text={isLoading ? "Loading..." : "Reset Pasword"}
                         onClick={resetPass}
                         fullWidth
                     />

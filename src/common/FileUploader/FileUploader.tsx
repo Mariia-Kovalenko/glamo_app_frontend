@@ -9,9 +9,10 @@ type FileUploaderComponentProps = {
     title: string;
     onClose: () => void;
     handleFileUpload: (formData: FormData) => void;
+    isLoading: boolean
 }
 
-export default function FileUploaderComponent({title, onClose, handleFileUpload}: FileUploaderComponentProps) {
+export default function FileUploaderComponent({title, onClose, handleFileUpload, isLoading}: FileUploaderComponentProps) {
     // drag state
     const [dragActive, setDragActive] = useState(false);
     // ref
@@ -175,7 +176,7 @@ export default function FileUploaderComponent({title, onClose, handleFileUpload}
 
                 <div className="actions">
                     <Button text={"Cancel"} color="light" onClick={() => {setFile(null)}} />
-                    <Button text={"Upload"} onClick={uploadFile} />
+                    <Button text={isLoading ? "Loading..." : "Upload"} onClick={uploadFile} />
                 </div>
             </div>
         </div>

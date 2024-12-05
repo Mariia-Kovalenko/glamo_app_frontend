@@ -17,6 +17,7 @@ interface IMapFilterProps {
     setIsCheckboxChecked: (val: boolean) => void;
     isSearchEnabled: boolean;
     setIsSearchEnabled: (val: boolean) => void;
+    isLoading: boolean
 }
 
 export default function MapFilters({
@@ -29,7 +30,8 @@ export default function MapFilters({
     handleCheckboxChange,
     applyFilter,
     isSearchEnabled,
-    setIsSearchEnabled
+    setIsSearchEnabled,
+    isLoading
 }: IMapFilterProps) {
     const handleSelectCategory = (id: string) => {
         setSelectedCategory(id);
@@ -86,7 +88,7 @@ export default function MapFilters({
 
             <div className="filters__section buttons">
                 <Button
-                    text={"search"}
+                    text={isLoading ? "searching..." : "search"}
                     onClick={applyFilter}
                     fullWidth={true}
                     disabled={!isSearchEnabled}

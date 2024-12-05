@@ -22,6 +22,7 @@ export default function Login() {
         error: false,
         message: "Error",
     });
+    const [isLoading, setIsLoading] = useState(false)
 
     const user = useSelector((state: { user: IUserState }) => state.user);
     const dispatch = useDispatch();
@@ -32,9 +33,9 @@ export default function Login() {
             setRequestError({ error: true, message: "Please fill the form" });
             return;
         }
+        setIsLoading(true);
         AuthService.login(values.email, values.password)
             .then((res) => {
-                console.log(res);
                 const { id, username, role, access_token, profileImage } = res.data;
                 dispatch(
                     authorizeUser(
@@ -49,10 +50,12 @@ export default function Login() {
 
                 // save token to localStorage
                 LocalStorageService.saveUserToLocal(access_token);
+                setIsLoading(false);
 
                 navigate("/map");
             })
             .catch((error) => {
+                setIsLoading(false);
                 if (error.response) {
                     setRequestError({
                         error: true,
@@ -100,7 +103,7 @@ export default function Login() {
                     <div className="error">{requestError.message}</div>
                 )}
 
-                <Button text="Log in" onClick={login} fullWidth type="submit" />
+                <Button text={isLoading ? "Loading..." : "Log in"} onClick={login} fullWidth type="submit" />
                 <Button
                     text="continue as guest"
                     color="light"
